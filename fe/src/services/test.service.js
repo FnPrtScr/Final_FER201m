@@ -1,11 +1,10 @@
 import axios from 'axios';
-
-const API_URL = 'https://api.example.com';
+import { Server } from "../dataConfig";
 
 const UserService = {
   getUsers: async () => {
     try {
-      const response = await axios.get(`${API_URL}/users`);
+      const response = await axios.get(`${Server}/users`);
       return response.data;
     } catch (error) {
       console.error('Error retrieving users:', error);
