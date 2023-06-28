@@ -1,10 +1,12 @@
-import UserList from "./components/test.component";
+
+import Home from "./components/Home.component";
+import Navbar from "./components/Navbar.component";
 
 function App() {
   return (
     <div>
-      <h1>Welcome to akakkak React App</h1>
-      <UserList/>
+      <Navbar/>
+      <Home/>
     </div>
   );
 }

@@ -1,18 +1,16 @@
 require('dotenv').config();
 const express = require('express');
+const { errorResponse } = require('./utils/response');
 const { sequelize } = require('./models');
 
 const app = express();
 
 const { SERVER_PORT, DB_DATABASE, DB_HOST } = process.env;
 
-app.get('/', (req, res) => {
-  res.send('Hello, World!');
-});
-// app.use(
-//   '/api/v1',
-//   require('./routes')
-// );
+app.use(
+  '/api/v1',
+  require('./routes')
+);
 
 // if route not exist
 app.all('*', (req, res) => {
@@ -26,7 +24,7 @@ app.listen(SERVER_PORT || 5000, async () => {
     await sequelize.authenticate();
     console.log(`>>> Connected to "${DB_DATABASE}" on "${DB_HOST}"!`);
     // await sequelize.sync();
-    // console.log(`>>> Synced data successful`);
+    console.log(`>>> Synced data successful`);
 
   } catch (err) {
     console.error(err);
