@@ -1,9 +1,18 @@
 'use strict';
 
+class ErrorResponse extends Error {
+    constructor(statusCode, message) {
+        super();
+        this.statusCode = statusCode;
+        this.message = message;
+    }
+}
+
 /**
  * Only using for Controllers
  */
 module.exports = {
+    ErrorResponse: ErrorResponse,
     errorResponse: (statusCode, error) => {
         let errorResponse = {};
         switch (statusCode) {

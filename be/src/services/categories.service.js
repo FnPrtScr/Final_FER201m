@@ -1,56 +1,43 @@
 const { Op } = require('sequelize');
 // @ts-ignore
-const { Role, UserMaster } = require('../models');
-const queryParams = require('../utils/query-params');
-const ErrorResponse = require('../libs/error-response');
-const getAccountFromToken = require('../utils/account-token');
-class RoleService {
+const { Users, Categories,Reminder } = require('../models');
+const { ErrorResponse,errorResponse, successResponse } = require('../utils/response');
+class CategoriesService {
     async fncFindOne(req) {
         const { id } = req.params;
 
-        return Role.findOne({
-            where: { ID: id },
+        return Categories.findOne({
+            where: { category_id: id },
             include: [
                 {
-                    model: UserMaster,
+                    model: Categories,
                 },
             ],
         });
+    }
+    async fncFindAll(){
+        return Categories.findAndCountAll({where:{
+            
+        }});
     }
 
     async fncCreateOne(req) {
-        const newData = req.body;
-        return Role.create(newData);
+        return Categories.create({...req.body});
     }
 
-    async fncFindAll(req) {
-        const queries = queryParams(req.query, Op, ['Name'], ['Name', 'CreatedDate', 'UpdatedDate']);
-
-        return Role.findAndCountAll({
-            order: queries.order,
-            where: queries.searchOr,
-            include: [
-                {
-                    model: UserMaster,
-                },
-            ],
-            distinct: true,
-            limit: queries.limit,
-            offset: queries.offset,
-        });
-    }
+    
 
     async fncUpdateOne(req, next) {
         const { id } = req.params;
         const found = await this.fncFindOne(req);
 
         if (!found) {
-            return next(new ErrorResponse(404, 'Role not found'));
+            return next(new ErrorResponse(404, 'Categories not found'));
         } else {
-            return Role.update(
+            return Categories.update(
                 { ...req.body },
                 {
-                    where: { ID: id },
+                    where: { category_id: id },
                 }
             );
         }
@@ -60,15 +47,16 @@ class RoleService {
         const { id } = req.params;
         const found = await this.fncFindOne(req);
 
-        if (!found) return next(new ErrorResponse(404, 'Role not found'));
+        if (!found) return next(new ErrorResponse(404, 'Categories not found'));
 
-        return Role.update(
-            { Status: 2 },
+        const deleteAllReminderInCategories=await Re
+
+        return Categories.destroy(
             {
-                where: { ID: id },
+                where: { category_id: id },
             }
         );
     }
 }
 
-module.exports = new RoleService();
+module.exports = new CategoriesService();

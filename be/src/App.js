@@ -2,10 +2,12 @@ require('dotenv').config();
 const express = require('express');
 const { errorResponse } = require('./utils/response');
 const { sequelize } = require('./models');
+const { SERVER_PORT, DB_DATABASE, DB_HOST } = process.env;
 
 const app = express();
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-const { SERVER_PORT, DB_DATABASE, DB_HOST } = process.env;
 
 app.use(
   '/api/v1',

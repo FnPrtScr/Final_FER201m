@@ -1,47 +1,32 @@
 const asyncHandler = require('../utils/async-handler');
-const RoleService = require('../services/role.service');
-const { errorResponse, successResponse } = require('../libs/response');
+const UserService = require('../services/user.service');
+const { errorResponse, successResponse } = require('../utils/response');
 
 module.exports = {
-    findRoles: asyncHandler(async (req, res, next) => {
-        const { page, size } = req.query;
-        const { rows: roles, count: total } = await RoleService.fncFindAll(req);
 
-        return res.json(
-            successResponse(200, {
-                total,
-                roles,
-                currentPage: +page || 1,
-                pageSize: +size || roles.length,
-            })
-        );
+    findUser: asyncHandler(async (req, res, next) => {
+        const user = await UserService.fncGetUser(req);
+
+        if (user) return res.json(successResponse(200, user));
+        return res.status(404).json(errorResponse(404));
     }),
-
-    findRole: asyncHandler(async (req, res, next) => {
-        const role = await RoleService.fncFindOne(req);
-
-        if (role) return res.json(successResponse(200, role));
+    
+    registerUser:asyncHandler(async (req,res,next) =>{
+        const user=await UserService.fncRegister(req,res);
+        if(user) return res.status(200).json(successResponse(200,user));
+        return res.status(500).json(errorResponse());
+    }),
+    
+    loginUser:asyncHandler(async (req,res,next)=>{
+        const user=await UserService.fncLogin(req,res);
+        if(user) return res.status(200).json(successResponse(200,user));
         return res.status(404).json(errorResponse(404));
     }),
 
-    createRole: asyncHandler(async (req, res, next) => {
-        const role = await RoleService.fncCreateOne(req);
-
-        if (role) return res.status(201).json(successResponse(201, role));
+    verification:asyncHandler(async (req,res,next)=>{
+        const verify=await UserService.fncVerification(req,res);
+        if(verify) return res.status(204).json(successResponse(204));
         return res.status(500).json(errorResponse());
-    }),
-
-    updateRole: asyncHandler(async (req, res, next) => {
-        const role = await RoleService.fncUpdateOne(req, next);
-
-        if (role) return res.status(204).json(successResponse(204));
-        return res.status(500).json(errorResponse());
-    }),
-
-    deleteRole: asyncHandler(async (req, res, next) => {
-        const role = await RoleService.fncDeleteOne(req, next);
-
-        if (role) return res.status(204).json(successResponse(204));
-        return res.status(500).json(errorResponse());
-    }),
+    })
+    
 };

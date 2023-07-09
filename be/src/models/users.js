@@ -8,11 +8,11 @@ module.exports = (sequelize) => {
          * This method is not a part of Sequelize lifecycle.
          * The `models/index` file will call this method automatically.
          */
-        static associate({Role,Reminders}) {
+        static associate({Role,Categories}) {
             this.belongsTo(Role, {
                 foreignKey: 'role_id',
             });
-            this.hasMany(Reminders, {
+            this.hasMany(Categories, {
                 foreignKey: 'user_id',
             });
         }
@@ -34,18 +34,18 @@ module.exports = (sequelize) => {
                 defaultValue: 2,
                 type: DataTypes.INTEGER,
             },
+            codeActive: DataTypes.STRING,
             status: {
                 defaultValue: 1,
                 type: DataTypes.INTEGER,
             },
-            created_date:DataTypes.STRING,
-            updated_date:DataTypes.STRING,
         },
         {
             sequelize,
             modelName: 'Users',
             freezeTableName: true,
-            timestamps: false,
+            createdAt: 'created_date',
+            updatedAt: 'updated_date',
         }
     );
     return Users;

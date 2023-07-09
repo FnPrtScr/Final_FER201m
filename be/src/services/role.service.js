@@ -24,8 +24,6 @@ class RoleService {
     }
 
     async fncFindAll(req) {
-        const result=await Role.findAndCountAll();
-        console.log(result);
         return Role.findAndCountAll();
     }
 

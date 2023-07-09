@@ -1,58 +1,46 @@
-const { Op } = require('sequelize');
 // @ts-ignore
-const { Role, UserMaster } = require('../models');
-const queryParams = require('../utils/query-params');
-const ErrorResponse = require('../libs/error-response');
-const getAccountFromToken = require('../utils/account-token');
-class RoleService {
+const { Users, Categories,Reminders } = require('../models');
+
+const { ErrorResponse,errorResponse, successResponse } = require('../utils/response');
+
+class ReminderService {
     async fncFindOne(req) {
         const { id } = req.params;
 
-        return Role.findOne({
-            where: { ID: id },
+        return Reminders.findOne({
+            where: { reminder_id: id },
             include: [
                 {
-                    model: UserMaster,
+                    model: Categories,
                 },
             ],
         });
+    }
+    async fncFindAll(){
+        return Reminders.findAndCountAll();
     }
 
     async fncCreateOne(req) {
-        const newData = req.body;
-        return Role.create(newData);
+        return await Reminders.create({...req.body});
     }
 
-    async fncFindAll(req) {
-        const queries = queryParams(req.query, Op, ['Name'], ['Name', 'CreatedDate', 'UpdatedDate']);
-
-        return Role.findAndCountAll({
-            order: queries.order,
-            where: queries.searchOr,
-            include: [
-                {
-                    model: UserMaster,
-                },
-            ],
-            distinct: true,
-            limit: queries.limit,
-            offset: queries.offset,
-        });
-    }
+    
 
     async fncUpdateOne(req, next) {
         const { id } = req.params;
+        const {user_id}=req.body;
         const found = await this.fncFindOne(req);
 
         if (!found) {
-            return next(new ErrorResponse(404, 'Role not found'));
+            return next(new ErrorResponse(404, 'Reminder not found'));
         } else {
-            return Role.update(
-                { ...req.body },
-                {
-                    where: { ID: id },
-                }
-            );
+                return await Reminders.update(
+                    { ...req.body },
+                    {
+                        where: { user_id:user_id,reminder_id: id,status:"Pending" },
+                    }
+                );
+            
         }
     }
 
@@ -60,15 +48,14 @@ class RoleService {
         const { id } = req.params;
         const found = await this.fncFindOne(req);
 
-        if (!found) return next(new ErrorResponse(404, 'Role not found'));
+        if (!found) return next(new ErrorResponse(404, 'Reminder not found'));
 
-        return Role.update(
-            { Status: 2 },
+        return Reminders.destroy(
             {
-                where: { ID: id },
+                where: { reminder_id: id },
             }
         );
     }
 }
 
-module.exports = new RoleService();
+module.exports = new ReminderService();

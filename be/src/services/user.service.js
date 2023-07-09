@@ -1,74 +1,50 @@
-const { Op } = require('sequelize');
 // @ts-ignore
-const { Role, UserMaster } = require('../models');
-const queryParams = require('../utils/query-params');
-const ErrorResponse = require('../libs/error-response');
-const getAccountFromToken = require('../utils/account-token');
-class RoleService {
-    async fncFindOne(req) {
-        const { id } = req.params;
+const {Users}=require('../models')
+const sendMail=require('../utils/send-mail')
+const generateRandomNumber=require('../utils/random-code')
 
-        return Role.findOne({
-            where: { ID: id },
-            include: [
-                {
-                    model: UserMaster,
-                },
-            ],
-        });
+class UserService {
+    async fncLogin(req,res){
+       const {email,password}=req.body;
+       const result= await Users.findOne({where:{email,password,status:1}});
+       return result;
     }
 
-    async fncCreateOne(req) {
-        const newData = req.body;
-        return Role.create(newData);
-    }
+    async fncRegister(req,res){
+        const {email}=req.body;
+        const checkEmailExists=await this.fncGetUser(req,res);
+        if(checkEmailExists===null){
 
-    async fncFindAll(req) {
-        const queries = queryParams(req.query, Op, ['Name'], ['Name', 'CreatedDate', 'UpdatedDate']);
+            const genCode=await generateRandomNumber();
+            const subject="User Email Verification";
+            const content=`Registered successfully.Please verify your account using this code: ${genCode}`
 
-        return Role.findAndCountAll({
-            order: queries.order,
-            where: queries.searchOr,
-            include: [
-                {
-                    model: UserMaster,
-                },
-            ],
-            distinct: true,
-            limit: queries.limit,
-            offset: queries.offset,
-        });
-    }
+            await sendMail(email,subject,content);
 
-    async fncUpdateOne(req, next) {
-        const { id } = req.params;
-        const found = await this.fncFindOne(req);
-
-        if (!found) {
-            return next(new ErrorResponse(404, 'Role not found'));
-        } else {
-            return Role.update(
-                { ...req.body },
-                {
-                    where: { ID: id },
-                }
-            );
+            return await Users.create({role_id:2,status:2,codeActive:genCode,...req.body})
         }
+
     }
 
-    async fncDeleteOne(req, next) {
-        const { id } = req.params;
-        const found = await this.fncFindOne(req);
-
-        if (!found) return next(new ErrorResponse(404, 'Role not found'));
-
-        return Role.update(
-            { Status: 2 },
-            {
-                where: { ID: id },
-            }
-        );
+    async fncGetUser(req,res){
+        const {email}=req.body;
+        const result =await Users.findOne({where:{email:email}});
+        return result;
     }
+    async fncVerification(req,res){
+        const {email,code}=req.body;
+        const getCodeByUser=await this.fncGetUser(req,res);
+        if(code === +getCodeByUser.codeActive){
+            return await Users.update(
+                { status:1},
+                {
+                    where: { email: email },
+                }
+            )
+        }
+
+    }
+
 }
 
-module.exports = new RoleService();
+module.exports = new UserService();

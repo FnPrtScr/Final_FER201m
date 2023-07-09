@@ -1,47 +1,43 @@
 const asyncHandler = require('../utils/async-handler');
-const RoleService = require('../services/role.service');
-const { errorResponse, successResponse } = require('../libs/response');
+const ReminderService = require('../services/reminders.service');
+const { errorResponse, successResponse } = require('../utils/response');
 
 module.exports = {
-    findRoles: asyncHandler(async (req, res, next) => {
-        const { page, size } = req.query;
-        const { rows: roles, count: total } = await RoleService.fncFindAll(req);
+    findReminders: asyncHandler(async (req, res, next) => {
+        const  reminder= await ReminderService.fncFindAll();
 
         return res.json(
             successResponse(200, {
-                total,
-                roles,
-                currentPage: +page || 1,
-                pageSize: +size || roles.length,
+                reminder,
             })
         );
     }),
 
-    findRole: asyncHandler(async (req, res, next) => {
-        const role = await RoleService.fncFindOne(req);
+    findReminder: asyncHandler(async (req, res, next) => {
+        const reminder = await ReminderService.fncFindOne(req);
 
-        if (role) return res.json(successResponse(200, role));
+        if (reminder) return res.json(successResponse(200, reminder));
         return res.status(404).json(errorResponse(404));
     }),
 
-    createRole: asyncHandler(async (req, res, next) => {
-        const role = await RoleService.fncCreateOne(req);
+    createReminder: asyncHandler(async (req, res, next) => {
+        const reminder = await ReminderService.fncCreateOne(req);
 
-        if (role) return res.status(201).json(successResponse(201, role));
+        if (reminder) return res.status(201).json(successResponse(201, reminder));
         return res.status(500).json(errorResponse());
     }),
 
-    updateRole: asyncHandler(async (req, res, next) => {
-        const role = await RoleService.fncUpdateOne(req, next);
+    updateReminder: asyncHandler(async (req, res, next) => {
+        const reminder = await ReminderService.fncUpdateOne(req, next);
 
-        if (role) return res.status(204).json(successResponse(204));
+        if (reminder) return res.status(204).json(successResponse(204));
         return res.status(500).json(errorResponse());
     }),
 
-    deleteRole: asyncHandler(async (req, res, next) => {
-        const role = await RoleService.fncDeleteOne(req, next);
+    deleteReminder: asyncHandler(async (req, res, next) => {
+        const reminder = await ReminderService.fncDeleteOne(req, next);
 
-        if (role) return res.status(204).json(successResponse(204));
+        if (reminder) return res.status(204).json(successResponse(204));
         return res.status(500).json(errorResponse());
     }),
 };

@@ -4,7 +4,6 @@ const { errorResponse, successResponse } = require('../utils/response');
 
 module.exports = {
     findRoles: asyncHandler(async (req, res, next) => {
-        console.log('a');
         const result=await RoleService.fncFindAll(req);
         return res.json(
             successResponse(200, {
