@@ -11,3 +11,70 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.create {
+  padding: 8px;
+  background-color: #E8F8EC;
+  border-color: transparent;
+  margin-bottom: 12px;
+  border-radius: 8px;
+}
+.create:hover {
+    background-color: rgb(199, 191, 191);
+    color: white;
+}
+
+.btn-create {
+  background-color: rgb(10, 228, 10);
+  color: white;
+  padding: 8px;
+  border-radius: 8px;
+  border-color: transparent;
+}
+
+.btn-cancel {
+  cursor: pointer;
+}
+
+.modal-house {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-color: rgba(0,0, 0, 0.4);
+  align-items: center;
+  justify-content: center;
+  display: none;
+}
+
+.modal-house.open {
+  display: flex;
+}
+
+.modal-container-house {
+  width: 650px;
+  min-height: 200px;
+  background-color: #fff;
+  position: relative;
+  max-width: calc(100% - 32px);
+  animation: modalFadeIn ease 0.5s;
+  background-color: #fff;
+  padding: 12px 20px;
+}
+
+.modal-house-title {
+  border-bottom: 1px solid  rgb(186, 183, 183);
+  margin-bottom: 12px;
+  width: 100%;
+}
+
+.input {
+  margin-bottom: 8px;
+}
+
+.modal-container-house input {
+  width: 100%;
+  border: 1px solid rgb(210, 205, 205);
+  padding: 4px 0;
+}
