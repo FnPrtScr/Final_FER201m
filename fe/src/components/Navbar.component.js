@@ -12,6 +12,10 @@ const Navbarr = () => {
                     <Nav className="me-auto">
                     </Nav>
                     <Nav>
+                        <NotiHome/>
+                    </Nav>
+                    <Nav>
+
                         <Nav.Link href="#">
                             Logout
                         </Nav.Link>
