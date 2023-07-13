@@ -7,52 +7,12 @@ import { FcPlanner, FcTodoList, FcOk, FcBusinessman, FcDatabase } from "react-ic
 import { FaListUl } from "react-icons/fa";
 import '../styles/Home.style.css'
 import { Link } from 'react-router-dom';
+import Navbarr from './Navbar.component';
 
 const Home = () => {
   const [selectedButton, setSelectedButton] = useState(null);
 
-  const [id, setID] = useState();
-  const [userId, setUserId] = useState();
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [dueDate, setDueDate] = useState('');
-  const [priority, setPriority] = useState();
-  const [status, setStatus] = useState('');
-  const [createdDate, setCreateDate] = useState('');
-  const [updatedDate, setUpdateDate] = useState('');
 
-
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const data = {
-      id: parseInt(id),
-      user_id: parseInt(userId),
-      title: title,
-      description: description,
-      due_date: dueDate,
-      priority: parseInt(priority),
-      status: status,
-      created_date: createdDate,
-      updated_date: updatedDate
-    }
-    const option = {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json'
-        // 'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: JSON.stringify(data)
-    }
-    fetch(`http://localhost:9999/reminders`, option)
-      .then(res => res.json())
-      .then((data) => {
-        if (data !== null) {
-          alert('Them thanh cong');
-          window.location.reload();
-        }
-      })
-  }
   const openModal = () => {
     const modal = document.querySelector('.modal-house');
     modal.classList.add('open');
@@ -90,31 +50,9 @@ const Home = () => {
     return null;
   };
 
-  return
-  (
-    <>
-      <nav className="navbar navbar-expand-lg navbar-light fixed-top">
-        <div className="container">
-          <Link className="navbar-brand" to={'/sign-in'}>
-            To-do App
-          </Link>
-          <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
-            <ul className="navbar-nav ml-auto">
-              <li className="nav-item">
-                <Link className="nav-link" to={'/sign-in'}>
-                  Login
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to={'/sign-up'}>
-                  Sign up
-                </Link>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
-
+  return(
+    <div>
+      <Navbarr/>
       <TabContainer>
         <Row className='mb-0'>
           <Col className='navLeft' xs={4}>
@@ -171,7 +109,7 @@ const Home = () => {
           </Navbar.Collapse>
         </Navbar>
       </TabContainer>
-    </>
+    </div>
   )
 }
 

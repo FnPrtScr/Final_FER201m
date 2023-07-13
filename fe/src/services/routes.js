@@ -14,7 +14,7 @@ export const appRoutes = createBrowserRouter([
         element: <Login />
     },
     {
-        path: '/api/v1/app',
-        element: <Home/>
-    }
+        path: "/api/v1/app",
+        element: <Home />,
+      },
 ])
