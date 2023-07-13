@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { getOne, login } from '../services/auth';
+import { login } from '../services/auth';
 import { Link, Navigate } from 'react-router-dom';
 
 export default class Login extends Component {
@@ -21,12 +21,12 @@ export default class Login extends Component {
       .then((res) => {
         Promise.all([
           localStorage.setItem('USER', JSON.stringify(res.data)),
-            this.setState({
-              routeRedirect:
-                  res.data.data.role_id === 1 ?
-                  '/admin/api/v1/app' :
-                  '/api/v1/app'
-            }),
+          this.setState({
+            routeRedirect:
+              res.data.data.role_id === 1 ?
+                '/admin/api/v1/app' :
+                '/api/v1/app'
+          }),
           this.setState({
             shouldRedirectHome: true
           })
@@ -121,7 +121,7 @@ export default class Login extends Component {
                 </button>
               </div>
               <p className="forgot-password text-right">
-                Forgot <a href="#">password?</a>
+                Forgot <a href="/resetpassword">password?</a>
               </p>
             </form>
           </div>

@@ -50,9 +50,9 @@ const Home = () => {
     return null;
   };
 
-  return(
+  return (
     <div>
-      <Navbarr/>
+      <Navbarr />
       <TabContainer>
         <Row className='mb-0'>
           <Col className='navLeft' xs={4}>
