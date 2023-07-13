@@ -1,6 +1,6 @@
 import React from 'react'
 import { Navbar, Nav } from 'react-bootstrap'
-
+import NotiHome from '../components/Noti.home.component'
 const Navbarr = () => {
     return (
         <div className='container-fluid'>

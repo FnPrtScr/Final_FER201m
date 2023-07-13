@@ -170,58 +170,6 @@ const Home = () => {
             <NavItem style={{ cursor: 'pointer' }}><MdAddCircle color='rgb(0,122,255)' size='1.5em' />&emsp;Add Categories</NavItem>
           </Navbar.Collapse>
         </Navbar>
-
-        {/* cong */}
-
-        <div className="modal-house">
-          <div className="modal-container-house">
-            <div className="modal-house-title">
-              <h5>Create new house</h5>
-            </div>
-            <form onSubmit={(e) => handleSubmit(e)}>
-              <div className="input">
-                <label htmlFor="name">ID</label><br />
-                <input id="name" type="text" className="form-control" value={id} onChange={(e) => setID(e.target.value)} />
-              </div>
-              <div className="input">
-                <label htmlFor="name">UserID</label><br />
-                <input id="name" type="text" className="form-control" value={userId} onChange={(e) => setUserId(e.target.value)} />
-              </div>
-              <div className="input">
-                <label htmlFor="contact">title</label>
-                <input id="contact" type="text" className="form-control" value={title} onChange={(e) => setTitle(e.target.value)} />
-              </div>
-              <div className="input">
-                <label htmlFor="price">description</label>
-                <input id="price" type="text" className="form-control" value={description} onChange={(e) => setDescription(e.target.value)} />
-              </div>
-              <div className="input">
-                <label htmlFor="description">due_date</label>
-                <input id="description" type="text" className="form-control" value={dueDate} onChange={(e) => setDueDate(e.target.value)} />
-              </div>
-              <div className="input">
-                <label htmlFor="area">priority</label>
-                <input id="area" type="text" className="form-control" value={priority} onChange={(e) => setPriority(e.target.value)} />
-              </div>
-              <div className="input">
-                <label htmlFor="address">status</label>
-                <input id="adress" type="text" className="form-control" value={status} onChange={(e) => setStatus(e.target.value)} />
-              </div>
-              <div className="input">
-                <label htmlFor="address">created_date</label>
-                <input id="adress" type="text" className="form-control" value={createdDate} onChange={(e) => setCreateDate(e.target.value)} />
-              </div>
-              <div className="input">
-                <label htmlFor="address">updated_date</label>
-                <input id="adress" type="text" className="form-control" value={updatedDate} onChange={(e) => setUpdateDate(e.target.value)} />
-              </div>
-              <div className="button">
-                <span className="btn-cancel" onClick={closeModal} >Cancel</span>
-                <button type='submit' style={{ marginLeft: "6px" }} className="btn-create">Create</button>
-              </div>
-            </form>
-          </div>
-        </div>
       </TabContainer>
     </>
   )
