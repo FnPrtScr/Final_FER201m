@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Button, Modal, Table } from 'react-bootstrap';
-import { FaBell } from 'react-icons/fa'
+import { Modal, Table } from 'react-bootstrap';
+import { FcAdvertising } from 'react-icons/fc'
 
 const NotiHome = () => {
     const data = [
@@ -15,7 +15,10 @@ const NotiHome = () => {
         // ...
     ];
     const maxRows = 5;
-
+    const countByAttribute = (attribute) => {
+        const count = data.filter(item => item.age === attribute).length;
+        return count;
+    };
     const slicedData = data.slice(0, maxRows);
 
     const [show, setShow] = useState(false);
@@ -24,7 +27,10 @@ const NotiHome = () => {
 
     return (
         <>
-            <FaBell variant="primary" onClick={handleShow}></FaBell>
+            <div>
+                <FcAdvertising style={{ height: '30px', width: '30px' }} variant="primary" onClick={handleShow} />
+                <label style={{transform:'translateY(10px) translateX(-10px)'}}> {countByAttribute(30)}</label>
+            </div>
 
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
