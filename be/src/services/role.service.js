@@ -9,7 +9,7 @@ class RoleService {
         const { id } = req.params;
 
         return Role.findOne({
-            where: { ID: id },
+            where: { role_id: id },
             include: [
                 {
                     model: UserMaster,

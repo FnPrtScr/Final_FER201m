@@ -1,10 +1,12 @@
 require('dotenv').config();
 const express = require('express');
+const cors = require('cors');
 const { errorResponse } = require('./utils/response');
 const { sequelize } = require('./models');
 const { SERVER_PORT, DB_DATABASE, DB_HOST } = process.env;
 
 const app = express();
+app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
