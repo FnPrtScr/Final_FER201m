@@ -1,22 +1,26 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal, Table } from 'react-bootstrap';
 import { FcAdvertising } from 'react-icons/fc'
 
 const NotiHome = () => {
-    const [noti,setNoti]=useState([]);
+    const [noti, setNoti] = useState([]);
 
-    const user = JSON.parse(localStorage.getItem('USER')); 
-    console.log(user);
-    useEffect(()=>{
-        fetch('http://localhost:5000/api/v1/notifications/' + user)
-        .then(resp=>resp.json())
-        .then(data=>{
-            setNoti(data.notifications.rows)
+    const user = JSON.parse(localStorage.getItem('USER'));
+    const getuserId = user.data.user_id;
+    console.log(getuserId);
+    useEffect(() => {
+        fetch(`http://localhost:5000/api/v1/notifications/${getuserId}`, {
+            method: 'GET'
         })
-        .catch(err=>{
-            console.log(err.message)
-        })
-    },[])
+            .then(resp => resp.json())
+            .then(a => {
+                setNoti(a.data.notification.rows);
+                console.log(a);
+            })
+            .catch(err => {
+                console.log(err.message);
+            });
+    }, [getuserId]);
     const maxRows = 5;
     const countByAttribute = (attribute) => {
         const count = noti.filter(item => item.status === attribute).length;
@@ -32,7 +36,7 @@ const NotiHome = () => {
         <>
             <div>
                 <FcAdvertising style={{ height: '30px', width: '30px' }} variant="primary" onClick={handleShow} />
-                <label style={{transform:'translateY(10px) translateX(-10px)'}}> {countByAttribute(30)}</label>
+                <label style={{ transform: 'translateY(15px) translateX(-10px)', color:'red' }}> {countByAttribute(1)}</label>
             </div>
 
             <Modal show={show} onHide={handleClose}>
@@ -43,17 +47,19 @@ const NotiHome = () => {
                     <Table>
                         <tbody>
                             {
-                                slicedData.map((item) => (
-                                    <tr key={item.id}>
-                                        <td>{item.content}</td>
-                                    </tr>
-                                ))
+                                slicedData.map((i) => {
+                                    return (
+                                        <tr key={i.id}>
+                                            <th>{i.content}</th>
+                                        </tr>
+                                    )
+                                })
                             }
                         </tbody>
                     </Table>
                 </Modal.Body>
                 <Modal.Footer>
-                    <a href='/viewallnotification'>View All</a>
+                    <a href='/api/v1/app/viewallnotification'>View All</a>
                 </Modal.Footer>
             </Modal>
         </>

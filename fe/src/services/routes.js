@@ -3,6 +3,7 @@ import Login from "../components/login.component";
 import SignUp from "../components/signup.component";
 import Verify from "../components/Verify.component";
 import Home from "../components/Home.component";
+import Noti from "../components/Noti.component";
 
 export const appRoutes = createBrowserRouter([
     {
@@ -24,5 +25,9 @@ export const appRoutes = createBrowserRouter([
     {
         path: '/api/v1/app',
         element: <Home />
+    },
+    {
+        path: '/api/v1/app/viewallnotification',
+        element: <Noti/>
     }
 ])
