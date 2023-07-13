@@ -1,7 +1,14 @@
 import React from 'react'
 import { Navbar, Nav } from 'react-bootstrap'
 import NotiHome from '../components/Noti.home.component'
+import { useNavigate } from 'react-router-dom';
 const Navbarr = () => {
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        localStorage.removeItem('USER');
+        navigate('/api/v1/auth');
+    };
     return (
         <div className='container-fluid'>
 
@@ -12,13 +19,11 @@ const Navbarr = () => {
                     <Nav className="me-auto">
                     </Nav>
                     <Nav>
-                        <NotiHome/>
+                        <NotiHome />
                     </Nav>
                     <Nav>
 
-                        <Nav.Link href="#">
-                            Logout
-                        </Nav.Link>
+                        <Nav.Link href="#" onClick={handleLogout}>Logout</Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>
