@@ -1,8 +1,8 @@
 const { Op } = require('sequelize');
 // @ts-ignore
-const { Users, Categories,Reminders } = require('../models');
+const { Users, Categories,Reminders,Notification } = require('../models');
 const { ErrorResponse,errorResponse, successResponse } = require('../utils/response');
-class CategoriesService {
+class NotificationService {
     async fncFindOne(req) {
         const { id } = req.params;
 
@@ -20,9 +20,9 @@ class CategoriesService {
     }
 
     async fncFindAllByUserId(req,res){
-        const {id}=req.params;
+        const {user_id}=req.body;
         return await Categories.findAndCountAll({
-            where:{user_id:id},
+            where:{user_id:user_id},
             include:{
                 model:Reminders
             }
@@ -57,9 +57,6 @@ class CategoriesService {
 
         if (!found) return next(new ErrorResponse(404, 'Categories not found'));
 
-        const deleteAllReminderInCategories=await Reminders.destroy({
-            where:{category_id:id}
-        })
 
         return Categories.destroy(
             {
@@ -69,4 +66,4 @@ class CategoriesService {
     }
 }
 
-module.exports = new CategoriesService();
+module.exports = new NotificationService();
