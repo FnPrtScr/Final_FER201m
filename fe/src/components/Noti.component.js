@@ -1,5 +1,6 @@
 import { Col, Container, Row, Table } from "react-bootstrap";
 import { useEffect, useState } from "react";
+import Navbarr from "./Navbar.component";
 
 const Noti = () => {
     const [noti, setNoti] = useState([]);
@@ -22,7 +23,8 @@ const Noti = () => {
     }, [getuserId]);
 
     return (
-        <Container>
+        <Container fluid>
+            <Navbarr />
             <Row>
                 <Col xs={12} md={10}>
                     <Row>

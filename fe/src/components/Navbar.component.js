@@ -6,7 +6,7 @@ const Navbarr = () => {
         <div className='container-fluid'>
 
             <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary">
-                <Navbar.Brand href="#home">Reminders</Navbar.Brand>
+                <Navbar.Brand href="/api/v1/app">Reminders</Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="me-auto">
