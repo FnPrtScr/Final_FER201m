@@ -1,17 +1,24 @@
 import React from 'react'
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 
 import { Col, Navbar, Row, Button, Form, FormLabel, Tab, NavItem, ListGroup, TabContainer } from 'react-bootstrap'
 import { MdFlagCircle, MdAddCircle } from "react-icons/md";
 import { FcPlanner, FcTodoList, FcOk, FcBusinessman, FcDatabase } from "react-icons/fc";
 import { FaListUl } from "react-icons/fa";
 import '../styles/Home.style.css'
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 import Navbarr from './Navbar.component';
 
 const Home = () => {
+  const navigate = useNavigate();
   const [selectedButton, setSelectedButton] = useState(null);
-  const user = JSON.parse(localStorage.getItem('USER'));
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem('USER'));
+    if (!user) {
+      navigate('/api/v1/auth');
+    }
+  }, []);
 
   const openModal = () => {
     const modal = document.querySelector('.modal-house');
