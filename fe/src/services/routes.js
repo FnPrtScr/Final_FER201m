@@ -7,7 +7,7 @@ import Home from "../components/Home.component";
 export const appRoutes = createBrowserRouter([
     {
         path: '',
-        element: <Navigate to='/api/v1/auth'/>
+        element: <Navigate to='/api/v1/auth' />
     },
     {
         path: '/api/v1/auth',
@@ -15,6 +15,6 @@ export const appRoutes = createBrowserRouter([
     },
     {
         path: '/api/v1/app',
-        element: <Home/>
+        element: <Home />
     }
 ])

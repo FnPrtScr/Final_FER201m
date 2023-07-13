@@ -1,25 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Modal, Table } from 'react-bootstrap';
 import { FcAdvertising } from 'react-icons/fc'
 
 const NotiHome = () => {
-    const data = [
-        { id: 1, name: 'John Doe', age: 25 },
-        { id: 2, name: 'Jane Smith', age: 30 },
-        { id: 3, name: 'Smith', age: 30 },
-        { id: 4, name: 'Jane', age: 30 },
-        { id: 5, name: 'Smith', age: 30 },
-        { id: 6, name: 'Jane Smith', age: 30 },
-        { id: 7, name: 'Jane Smith', age: 30 },
-        { id: 8, name: 'Jane Smith', age: 30 },
-        // ...
-    ];
+    const [noti,setNoti]=useState([]);
+
+    const user = JSON.parse(localStorage.getItem('USER')); 
+    console.log(user);
+    useEffect(()=>{
+        fetch('http://localhost:5000/api/v1/notifications/' + user)
+        .then(resp=>resp.json())
+        .then(data=>{
+            setNoti(data.notifications.rows)
+        })
+        .catch(err=>{
+            console.log(err.message)
+        })
+    },[])
     const maxRows = 5;
     const countByAttribute = (attribute) => {
-        const count = data.filter(item => item.age === attribute).length;
+        const count = noti.filter(item => item.status === attribute).length;
         return count;
     };
-    const slicedData = data.slice(0, maxRows);
+    const slicedData = noti.slice(0, maxRows);
 
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
@@ -42,7 +45,7 @@ const NotiHome = () => {
                             {
                                 slicedData.map((item) => (
                                     <tr key={item.id}>
-                                        <td>{item.name}</td>
+                                        <td>{item.content}</td>
                                     </tr>
                                 ))
                             }
