@@ -1,65 +1,44 @@
 import React from 'react'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import { Col, Navbar, Row, Button, Form, FormLabel, Tab, NavItem, ListGroup, TabContainer } from 'react-bootstrap'
 import { MdFlagCircle, MdAddCircle } from "react-icons/md";
 import { FcPlanner, FcTodoList, FcOk, FcBusinessman, FcDatabase } from "react-icons/fc";
 import { FaListUl } from "react-icons/fa";
 import '../styles/Home.style.css'
+import NewReminder from './NewReminder';
+import NewCategory from './NewCategory';
 
 const Home = () => {
   const [selectedButton, setSelectedButton] = useState(null);
 
-  const [id, setID] = useState();
-  const [userId, setUserId] = useState();
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [dueDate, setDueDate] = useState('');
-  const [priority, setPriority] = useState();
-  const [status, setStatus] = useState('');
-  const [createdDate, setCreateDate] = useState('');
-  const [updatedDate, setUpdateDate] = useState('');
+  const [reminders, setReminders] = useState([]);
+  const [categories, setCategories] = useState([]);
 
-
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const data = {
-      id: parseInt(id),
-      user_id: parseInt(userId),
-      title: title,
-      description: description,
-      due_date: dueDate,
-      priority: parseInt(priority),
-      status: status,
-      created_date: createdDate,
-      updated_date: updatedDate
-    }
-    const option = {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json'
-        // 'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: JSON.stringify(data)
-    }
-    fetch(`http://localhost:9999/reminders`, option)
+  useEffect(() => {
+    fetch(`http://localhost:9999/reminders`)
       .then(res => res.json())
-      .then((data) => {
-        if(data !== null) {
-          alert('Them thanh cong');
-          window.location.reload();
-        }
-      })
-    }
-    const openModal = () => {
-      const modal = document.querySelector('.modal-house');
+      .then(data => setReminders(data))
+  }, [])
+
+  useEffect(() => {
+    fetch(`http://localhost:9999/categories`)
+      .then(res => res.json())
+      .then(data => setCategories(data))
+  }, [])
+
+  const openModalReminder = () => {
+    if (categories.length !== 0) {
+      const modal = document.querySelector('.modal-reminder');
       modal.classList.add('open');
+    } else {
+
+    }
   }
-  
-  const closeModal = () => {
-      const modal = document.querySelector('.modal-house');
-      modal.classList.remove('open');
+
+  const openModalCategory = () => {
+    const modal = document.querySelector('.modal-category');
+    modal.classList.add('open');
   }
 
   const handleButtonClick = (button) => {
@@ -122,12 +101,16 @@ const Home = () => {
           <Row className='mb-3' style={{ marginLeft: '0px' }}>
             <FormLabel>My List</FormLabel>
             <ListGroup style={{ maxHeight: '400px', height: '400px', overflowY: 'auto' }}>
-              <ListGroup.Item action href="#link1"> <FaListUl size='1.5em' /> &emsp;
-                Link 1
-              </ListGroup.Item>
-              <ListGroup.Item action href="#link2">
-                Link 2
-              </ListGroup.Item>
+              {
+                categories.map(cate =>
+                  <ListGroup.Item action href="#link2">
+                    <div className='icon-link' style={{ backgroundColor: `${cate.color}` }}>
+                      <i className={cate.icon}></i>
+                    </div>
+                    {cate.name}
+                  </ListGroup.Item>
+                )
+              }
             </ListGroup>
           </Row>
         </Col>
@@ -139,64 +122,19 @@ const Home = () => {
       </Row>
       <Navbar className="bg-body-tertiary" style={{ height: '70px' }}>
         <Navbar.Collapse className="justify-content-start">
-          <NavItem style={{ cursor: 'pointer' }} onClick={openModal}><MdAddCircle color='rgb(0,122,255)' size='1.5em' />&emsp;Add New Reminder</NavItem>
+          <NavItem style={{ cursor: 'pointer' }} onClick={openModalReminder}><MdAddCircle color='rgb(0,122,255)' size='1.5em' />&emsp;Add New Reminder</NavItem>
         </Navbar.Collapse>
         <Navbar.Collapse className="justify-content-end">
-          <NavItem style={{ cursor: 'pointer' }}><MdAddCircle color='rgb(0,122,255)' size='1.5em' />&emsp;Add Categories</NavItem>
+          <NavItem style={{ cursor: 'pointer' }} onClick={openModalCategory}><MdAddCircle color='rgb(0,122,255)' size='1.5em' />&emsp;Add Categories</NavItem>
+
         </Navbar.Collapse>
       </Navbar>
 
-{/* cong */}
+      {/* cong */}
+      <NewReminder />
 
-      <div className="modal-house">
-        <div className="modal-container-house">
-          <div className="modal-house-title">
-            <h5>Create new house</h5>
-          </div>
-          <form onSubmit={(e) => handleSubmit(e)}>
-          <div className="input">
-              <label htmlFor="name">ID</label><br />
-              <input id="name" type="text" className="form-control" value={id} onChange={(e) => setID(e.target.value)} />
-            </div>
-            <div className="input">
-              <label htmlFor="name">UserID</label><br />
-              <input id="name" type="text" className="form-control" value={userId} onChange={(e) => setUserId(e.target.value)} />
-            </div>
-            <div className="input">
-              <label htmlFor="contact">title</label>
-              <input id="contact" type="text" className="form-control" value={title} onChange={(e) => setTitle(e.target.value)} />
-            </div>
-            <div className="input">
-              <label htmlFor="price">description</label>
-              <input id="price" type="text" className="form-control" value={description} onChange={(e) => setDescription(e.target.value)} />
-            </div>
-            <div className="input">
-              <label htmlFor="description">due_date</label>
-              <input id="description" type="text" className="form-control" value={dueDate} onChange={(e) => setDueDate(e.target.value)} />
-            </div>
-            <div className="input">
-              <label htmlFor="area">priority</label>
-              <input id="area" type="text" className="form-control" value={priority} onChange={(e) => setPriority(e.target.value)} />
-            </div>
-            <div className="input">
-              <label htmlFor="address">status</label>
-              <input id="adress" type="text" className="form-control" value={status} onChange={(e) => setStatus(e.target.value)} />
-            </div>
-            <div className="input">
-              <label htmlFor="address">created_date</label>
-              <input id="adress" type="text" className="form-control" value={createdDate} onChange={(e) => setCreateDate(e.target.value)} />
-            </div>
-            <div className="input">
-              <label htmlFor="address">updated_date</label>
-              <input id="adress" type="text" className="form-control" value={updatedDate} onChange={(e) => setUpdateDate(e.target.value)} />
-            </div>
-            <div className="button">
-              <span className="btn-cancel" onClick={closeModal} >Cancel</span>
-              <button type='submit' style={{ marginLeft: "6px" }} className="btn-create">Create</button>
-            </div>
-          </form>
-        </div>
-      </div>
+      <NewCategory />
+
     </TabContainer>
 
   )

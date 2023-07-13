@@ -2,14 +2,26 @@
   "reminders": [
     {
       "id": 1,
-      "user_id": 12,
-      "title": "abc",
-      "description": "def",
-      "due_date": "fafafas",
+      "title": "aaaa",
+      "description": "bbbb",
+      "due_date": "2023-07-13T15:54:36.290Z",
       "priority": 1,
-      "status": "vvsv",
-      "created_date": "vvsv",
-      "updated_date": "vvsv"
+      "status": false,
+      "category_id": null
+    }
+  ],
+  "categories": [
+    {
+      "name": "tuan",
+      "color": "rgb(255, 0, 60)",
+      "icon": "fas fa-bars",
+      "id": 1
+    },
+    {
+      "name": "cong",
+      "color": "greenyellow",
+      "icon": "fas fa-bars",
+      "id": 2
     }
   ]
 }
