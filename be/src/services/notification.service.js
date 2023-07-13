@@ -5,10 +5,10 @@ const { ErrorResponse,errorResponse, successResponse } = require('../utils/respo
 class NotificationService {
 
     async fncFindAllByUserId(req,res){
-        const {user_id}=req.body;;
+        const {id}=req.params;
 
         return await Notification.findAndCountAll({
-            where:{user_id:user_id},
+            where:{user_id:id},
         })
     }
 

@@ -14,6 +14,14 @@ export const appRoutes = createBrowserRouter([
         element: <Login />
     },
     {
+        path:'/api/v1/sign-up',
+        element: <SignUp/>
+    },
+    {
+        path:'/api/v1/verify',
+        element: <Verify/>
+    },
+    {
         path: '/api/v1/app',
         element: <Home />
     }

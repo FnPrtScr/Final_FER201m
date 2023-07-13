@@ -11,7 +11,7 @@ import Navbarr from './Navbar.component';
 
 const Home = () => {
   const [selectedButton, setSelectedButton] = useState(null);
-
+  const user = JSON.parse(localStorage.getItem('USER'));
 
   const openModal = () => {
     const modal = document.querySelector('.modal-house');

@@ -32,24 +32,24 @@ export default class Verify extends Component {
   };
 
   render() {
-    if (this.state.shouldRedirectLogin) return <Navigate to="/sign-in" />
+    if (this.state.shouldRedirectLogin) return <Navigate to="/api/v1/auth" />
     return (
       <>
       
       <nav className="navbar navbar-expand-lg navbar-light fixed-top">
         <div className="container">
-          <Link className="navbar-brand" to={'/sign-in'}>
+          <Link className="navbar-brand" to={'/api/v1/auth'}>
             To-do App
           </Link>
           <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
             <ul className="navbar-nav ml-auto">
               <li className="nav-item">
-                <Link className="nav-link" to={'/sign-in'}>
+                <Link className="nav-link" to={'/api/v1/auth'}>
                   Login
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to={'/sign-up'}>
+                <Link className="nav-link" to={'/api/v1/sign-up'}>
                   Sign up
                 </Link>
               </li>

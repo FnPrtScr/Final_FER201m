@@ -86,25 +86,25 @@ export default class SignUp extends Component {
   render() {
     const { errors } = this.state;
 
-    if (this.state.shouldRedirectVerify) return <Navigate to="/verify" /> // after register success, value become true and redirect
+    if (this.state.shouldRedirectVerify) return <Navigate to="/api/v1/verify" /> // after register success, value become true and redirect
 
     return (
       <>
       
       <nav className="navbar navbar-expand-lg navbar-light fixed-top">
         <div className="container">
-          <Link className="navbar-brand" to={'/sign-in'}>
+          <Link className="navbar-brand" to={'/api/v1/auth'}>
             To-do App
           </Link>
           <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
             <ul className="navbar-nav ml-auto">
               <li className="nav-item">
-                <Link className="nav-link" to={'/sign-in'}>
+                <Link className="nav-link" to={'/api/v1/auth'}>
                   Login
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to={'/sign-up'}>
+                <Link className="nav-link" to={'/api/v1/sign-up'}>
                   Sign up
                 </Link>
               </li>
@@ -188,7 +188,7 @@ export default class SignUp extends Component {
               </button>
             </div>
             <p className="forgot-password text-right">
-              Already registered <a href="/sign-in">sign in?</a>
+              Already registered <a href="/api/v1/auth">sign in?</a>
             </p>
           </form>
         </div>

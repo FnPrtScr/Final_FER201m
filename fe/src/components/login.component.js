@@ -64,7 +64,7 @@ export default class Login extends Component {
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link" to={'/sign-up'}>
+                  <Link className="nav-link" to={'/api/v1/sign-up'}>
                     Sign up
                   </Link>
                 </li>
