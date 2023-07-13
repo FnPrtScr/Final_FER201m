@@ -1,9 +1,6 @@
 const { Op } = require('sequelize');
 // @ts-ignore
 const { Role } = require('../models');
-// const queryParams = require('../utils/query-params');
-// const ErrorResponse = require('../libs/error-response');
-// const getAccountFromToken = require('../utils/account-token');
 class RoleService {
     async fncFindOne(req) {
         const { id } = req.params;
