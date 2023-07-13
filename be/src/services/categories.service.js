@@ -21,7 +21,7 @@ class CategoriesService {
 
     async fncFindAllByUserId(req,res){
         const {id}=req.params;
-        return await Categories.findAndCountAll({
+        return Categories.findAndCountAll({
             where:{user_id:id},
             include:{
                 model:Reminders
