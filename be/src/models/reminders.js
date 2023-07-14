@@ -7,6 +7,11 @@ module.exports = (sequelize) => {
          * This method is not a part of Sequelize lifecycle.
          * The `models/index` file will call this method automatically.
          */
+        static associate({Categories}) {
+            this.belongsTo(Categories, {
+                foreignKey: 'category_id',
+            });
+        }
     }
     Reminders.init(
         {
@@ -22,6 +27,7 @@ module.exports = (sequelize) => {
             priority: DataTypes.INTEGER,
             status: DataTypes.STRING,
             category_id:DataTypes.INTEGER,
+            user_id:DataTypes.INTEGER,
             schedule:DataTypes.STRING
         },
         {

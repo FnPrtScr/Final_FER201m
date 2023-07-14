@@ -6,8 +6,14 @@ import { MdFlagCircle, MdAddCircle } from "react-icons/md";
 import { FcPlanner, FcTodoList, FcOk, FcBusinessman, FcDatabase } from "react-icons/fc";
 import { FaListUl } from "react-icons/fa";
 import '../styles/Home.style.css'
+<<<<<<< HEAD
 import NewReminder from './NewReminder';
 import NewCategory from './NewCategory';
+=======
+import { Link,useNavigate } from 'react-router-dom';
+import Navbarr from './Navbar.component';
+import Tables from './Complete.home';
+>>>>>>> d145892f703cdaca7e6d33cc234d3e01f82d23a6
 
 const Home = () => {
   const [selectedButton, setSelectedButton] = useState(null);
@@ -48,7 +54,7 @@ const Home = () => {
 
   const renderContent = () => {
     if (selectedButton === 'total') {
-      return <div>Total Content</div>;
+      return <div><Tables header={"Today"}/></div>;
     }
     if (selectedButton === 'scheduled') {
       return <div>Scheduled Content</div>;
