@@ -27,6 +27,7 @@ module.exports = (sequelize) => {
             priority: DataTypes.INTEGER,
             status: DataTypes.STRING,
             category_id:DataTypes.INTEGER,
+            user_id:DataTypes.INTEGER,
             schedule:DataTypes.STRING
         },
         {
