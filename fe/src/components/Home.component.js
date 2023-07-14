@@ -8,6 +8,7 @@ import { FaListUl } from "react-icons/fa";
 import '../styles/Home.style.css'
 import { Link,useNavigate } from 'react-router-dom';
 import Navbarr from './Navbar.component';
+import Tables from './Complete.home';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -37,7 +38,7 @@ const Home = () => {
 
   const renderContent = () => {
     if (selectedButton === 'total') {
-      return <div>Total Content</div>;
+      return <div><Tables header={"Today"}/></div>;
     }
     if (selectedButton === 'scheduled') {
       return <div>Scheduled Content</div>;
