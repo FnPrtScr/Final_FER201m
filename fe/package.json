@@ -14,6 +14,7 @@
     "mdbootstrap": "^4.20.0",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.4",
+    "react-datetime-picker": "^5.2.1",
     "react-dom": "^18.2.0",
     "react-icons": "^4.10.1",
     "react-router-dom": "^6.12.1",
