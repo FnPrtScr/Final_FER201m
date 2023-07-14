@@ -20,6 +20,12 @@ class ReminderService {
     async fncFindAll() {
         return Reminders.findAndCountAll();
     }
+    async fncFindAllByUserId(req,res) {
+        const {id}=req.params;
+        return Reminders.findAndCountAll({
+            where:{user_id:id}
+        });
+    }
 
     async fncCreateOne(req) {
         // return await Reminders.create({ ...req.body });

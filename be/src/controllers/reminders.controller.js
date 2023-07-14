@@ -12,6 +12,15 @@ module.exports = {
             })
         );
     }),
+    findRemindersByUserId: asyncHandler(async (req, res, next) => {
+        const  reminder= await ReminderService.fncFindAllByUserId(req,res);
+
+        return res.json(
+            successResponse(200, {
+                reminder,
+            })
+        );
+    }),
 
     findReminder: asyncHandler(async (req, res, next) => {
         const reminder = await ReminderService.fncFindOne(req);
