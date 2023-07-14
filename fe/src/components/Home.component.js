@@ -1,5 +1,6 @@
 import React from 'react'
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'
 
 import { Col, Navbar, Row, Button, Form, FormLabel, Tab, NavItem, ListGroup, TabContainer } from 'react-bootstrap'
 import { MdFlagCircle, MdAddCircle } from "react-icons/md";
@@ -15,11 +16,13 @@ const Home = () => {
   const [reminders, setReminders] = useState([]);
   const [categories, setCategories] = useState([]);
 
-  // useEffect(() => {
-  //   fetch(`http://localhost:5000/api/v1/reminders`)
-  //     .then(res => res.json())
-  //     .then(data => setReminders(data))
-  // }, [])
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    fetch(`http://localhost:5000/api/v1/reminders`)
+      .then(res => res.json())
+      .then(data => setReminders(data.data.reminder.rows))
+  }, [])
 
   useEffect(() => {
     fetch(`http://localhost:5000/api/v1/categories`)
@@ -45,10 +48,25 @@ const Home = () => {
     setSelectedButton(button);
   };
 
+  const deleteReminder = (id) => {
+    if (JSON.parse(localStorage.getItem('USER'))) {
+      const option = {
+        method: "DELETE"
+      }
+      fetch(`http://localhost:5000/api/v1/reminders/${id}`, option)
+        .then(() => {
+          window.location.reload();
+        }
+        )
+    } else {
+      navigate('/api/v1/auth');
+    }
+  }
+
 
   const renderContent = () => {
     if (selectedButton === 'total') {
-      return <div><Tables header={"Today"}/></div>;
+      return <div></div>;
     }
     if (selectedButton === 'scheduled') {
       return <div>Scheduled Content</div>;
@@ -129,6 +147,16 @@ const Home = () => {
 
         </Navbar.Collapse>
       </Navbar>
+      <div>
+        {
+          reminders.map(reminder =>
+            <div>
+              <button>{reminder.title}</button>
+              <span style={{ cursor: 'pointer' }} onClick={() => deleteReminder(reminder.reminder_id)}>Xoa</span>
+            </div>
+          )
+        }
+      </div>
 
       {/* cong */}
       <NewReminder />

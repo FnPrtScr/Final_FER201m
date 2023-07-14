@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom'
 
 const NewReminder = () => {
 
-    const [reminders, setReminders] = useState([]);
     const [categories, setCategories] = useState([]);
 
     const [title, setTitle] = useState('');
