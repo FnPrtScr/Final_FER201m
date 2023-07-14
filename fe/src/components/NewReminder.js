@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import DateTimePicker from 'react-datetime-picker'
+import { useNavigate } from 'react-router-dom'
 
 
 const NewReminder = () => {
@@ -13,16 +14,12 @@ const NewReminder = () => {
     const [priority, setPriority] = useState(0);
     const [cate, setCate] = useState(1);
 
-    useEffect(() => {
-        fetch(`http://localhost:9999/reminders`)
-            .then(res => res.json())
-            .then(data => setReminders(data))
-    }, [])
+    const navigate = useNavigate();
 
     useEffect(() => {
-        fetch(`http://localhost:9999/categories`)
+        fetch(`http://localhost:5000/api/v1/categories`)
             .then(res => res.json())
-            .then(data => setCategories(data))
+            .then(data => setCategories(data.data.categories.rows))
     }, [])
 
     const closeModalReminder = () => {
@@ -31,31 +28,35 @@ const NewReminder = () => {
     }
 
     const createReminder = () => {
-        const data = {
-            id: 1,
-            title: title,
-            description: description,
-            due_date: time,
-            priority: parseInt(priority),
-            status: false,
-            category_id: parseInt(cate)
+        if (JSON.parse(localStorage.getItem('USER'))) {
+            const data = {
+                title: title,
+                description: description,
+                due_date: time,
+                priority: parseInt(priority),
+                status: 'pending',
+                category_id: parseInt(cate),
+                user_id: JSON.parse(localStorage.getItem('USER')).data.user_id
+            }
+            const option = {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                    // 'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: JSON.stringify(data)
+            }
+            fetch(`http://localhost:5000/api/v1/reminders`, option)
+                .then(res => res.json())
+                .then((data) => {
+                    if (data !== null) {
+                        alert('Them reminder thanh cong');
+                        window.location.reload();
+                    }
+                })
+        } else {
+            navigate('/api/v1/auth');
         }
-        const option = {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-                // 'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: JSON.stringify(data)
-        }
-        fetch(`http://localhost:9999/reminders`, option)
-            .then(res => res.json())
-            .then((data) => {
-                if (data !== null) {
-                    alert('Them reminder thanh cong');
-                    window.location.reload();
-                }
-            })
     }
 
 
