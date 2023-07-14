@@ -15,7 +15,6 @@ const Noti = () => {
             .then(resp => resp.json())
             .then(a => {
                 setNoti(a.data.notification.rows);
-                console.log(a);
             })
             .catch(err => {
                 console.log(err.message);

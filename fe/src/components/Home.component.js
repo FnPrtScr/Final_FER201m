@@ -1,26 +1,35 @@
 import React from 'react'
-import { useState,useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 import { Col, Navbar, Row, Button, Form, FormLabel, Tab, NavItem, ListGroup, TabContainer } from 'react-bootstrap'
 import { MdFlagCircle, MdAddCircle } from "react-icons/md";
 import { FcPlanner, FcTodoList, FcOk, FcBusinessman, FcDatabase } from "react-icons/fc";
 import { FaListUl } from "react-icons/fa";
 import '../styles/Home.style.css'
-import { Link,useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Navbarr from './Navbar.component';
 import Tables from './Complete.home';
+import { myList } from '../services/home.service';
+import TablesReminderInMyList from './TablesReminderInMyList.component';
 
 const Home = () => {
   const navigate = useNavigate();
+  const [myCategories, setMyCategories] = useState([]);
   const [selectedButton, setSelectedButton] = useState(null);
 
+  const user = JSON.parse(localStorage.getItem('USER'));
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem('USER'));
     if (!user) {
       navigate('/api/v1/auth');
     }
   }, []);
 
+  useEffect(() => {
+    myList(user.data.user_id)
+      .then((res) => {
+        setMyCategories(res.data.data.categories.rows)
+      })
+  }, [])
   const openModal = () => {
     const modal = document.querySelector('.modal-house');
     modal.classList.add('open');
@@ -38,7 +47,7 @@ const Home = () => {
 
   const renderContent = () => {
     if (selectedButton === 'total') {
-      return <div><Tables header={"Today"}/></div>;
+      return <div><Tables header={"Today"} /></div>;
     }
     if (selectedButton === 'scheduled') {
       return <div>Scheduled Content</div>;
@@ -55,6 +64,11 @@ const Home = () => {
     if (selectedButton === 'assigned') {
       return <div>Assigned Content</div>;
     }
+    if (selectedButton?.includes("myList-")) {
+      const categoryId = selectedButton.split('-')[1];
+      return <div><TablesReminderInMyList/></div>;
+    }
+    
     return null;
   };
 
@@ -93,12 +107,15 @@ const Home = () => {
             <Row className='mb-3' style={{ marginLeft: '0px' }}>
               <FormLabel>My List</FormLabel>
               <ListGroup style={{ maxHeight: '400px', height: '400px', overflowY: 'auto' }}>
-                <ListGroup.Item action href="#link1"> <FaListUl size='1.5em' /> &emsp;
-                  Link 1
-                </ListGroup.Item>
-                <ListGroup.Item action href="#link2">
-                  Link 2
-                </ListGroup.Item>
+                {
+                  myCategories.map((category) => {
+                    return (
+                      <ListGroup.Item action onClick={() => handleButtonClick(`myList-${category.category_id}`)}> <FaListUl size='1.5em' key={category.category_id} /> &emsp;
+                        {category.name}
+                      </ListGroup.Item>
+                    )
+                  })
+                }
               </ListGroup>
             </Row>
           </Col>
