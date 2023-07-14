@@ -36,7 +36,8 @@ module.exports = (sequelize) => {
             },
             codeActive: DataTypes.STRING,
             status: {
-                defaultValue: 1,
+                // not verification
+                defaultValue: 2,
                 type: DataTypes.INTEGER,
             },
         },

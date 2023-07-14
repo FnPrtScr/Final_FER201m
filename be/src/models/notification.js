@@ -23,6 +23,7 @@ module.exports = (sequelize) => {
             },
             user_id: DataTypes.INTEGER,
             content: DataTypes.TEXT,
+            status: DataTypes.INTEGER,
         },
         {
             sequelize,

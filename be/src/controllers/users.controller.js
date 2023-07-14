@@ -12,8 +12,9 @@ module.exports = {
     }),
     
     registerUser:asyncHandler(async (req,res,next) =>{
+        console.log(req.body)
         const user=await UserService.fncRegister(req,res);
-        if(user) return res.status(200).json(successResponse(200,user));
+        if(user) return res.status(200).json(user);
         return res.status(500).json(errorResponse());
     }),
     
@@ -25,7 +26,7 @@ module.exports = {
 
     verification:asyncHandler(async (req,res,next)=>{
         const verify=await UserService.fncVerification(req,res);
-        if(verify) return res.status(204).json(successResponse(204));
+        if(verify) return res.status(204).json(verify);
         return res.status(500).json(errorResponse());
     })
     

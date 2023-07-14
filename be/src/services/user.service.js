@@ -33,8 +33,9 @@ class UserService {
     }
     async fncVerification(req,res){
         const {email,code}=req.body;
-        const getCodeByUser=await this.fncGetUser(req,res);
-        if(code === +getCodeByUser.codeActive){
+        const getCodeByUser = await this.fncGetUser(req,res);
+        console.log(getCodeByUser)
+        if(code === getCodeByUser.codeActive){ // truoc co dau +
             return await Users.update(
                 { status:1},
                 {

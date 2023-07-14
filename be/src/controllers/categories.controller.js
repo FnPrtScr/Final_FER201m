@@ -14,6 +14,15 @@ module.exports = {
             })
         );
     }),
+    findAllByUserId: asyncHandler(async (req, res, next) => {
+        const  categories= await CategoriesService.fncFindAllByUserId(req,res);
+
+        return res.json(
+            successResponse(200, {
+                categories,
+            })
+        );
+    }),
 
     findCategory: asyncHandler(async (req, res, next) => {
         const categories = await CategoriesService.fncFindOne(req);
