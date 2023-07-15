@@ -119,10 +119,16 @@ const Home = () => {
       return <div>Assigned Content</div>;
     }
     if (selectedButton?.includes("myList-")) {
-      const categoryId = selectedButton.split('-')[1];
-      const reminderr = []
-      reminderr.filter(r => r.category_id === +categoryId)
-      return <div><TablesReminderInMyList data={reminderr} /></div>;
+      const categoryId = selectedButton.split('-')[2];
+      const categoryName = selectedButton.split('-')[1];
+      let data = [];
+      reminders.filter((r) => {
+        if (r.category_id === +categoryId) {
+          data.push(r)
+        }
+        return data;
+      })
+      return <div><TablesReminderInMyList header={categoryName} data={data} /></div>;
     }
 
     return null;
@@ -166,7 +172,7 @@ const Home = () => {
                 {
                   categories.map((cate) => {
                     return (
-                      <ListGroup.Item action onClick={() => handleButtonClick(`myList-${cate.category_id}`)}>
+                      <ListGroup.Item action onClick={() => handleButtonClick(`myList-${cate.name}-${cate.category_id}`)}>
                         <div className='icon-link' style={{ backgroundColor: `${cate.color}` }}>
                           <i className={cate.icon}></i>
                         </div>

@@ -11,6 +11,10 @@ class NotificationService {
             where:{user_id:id},
         })
     }
+    async fncUpdateBulkNoti(req,res){
+        const {id}=req.body;
+        return await Notification.update({status:2},{where:{user_id:id,status:1}})
+    }
 
     
 }
