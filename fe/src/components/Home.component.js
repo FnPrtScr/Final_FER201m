@@ -4,10 +4,8 @@ import { useState, useEffect } from 'react';
 import { Col, Navbar, Row, Button, Form, FormLabel, Tab, NavItem, ListGroup, TabContainer } from 'react-bootstrap'
 import { MdFlagCircle, MdAddCircle } from "react-icons/md";
 import { FcPlanner, FcTodoList, FcOk, FcBusinessman, FcDatabase } from "react-icons/fc";
-import { FaListUl } from "react-icons/fa";
 import '../styles/Home.style.css'
-import { Link, useNavigate } from 'react-router-dom';
-import Navbarr from './Navbar.component';
+// import {  useNavigate } from 'react-router-dom';
 import Tables from './Tables.component';
 import moment from 'moment';
 import NewReminder from './NewReminder';
@@ -22,7 +20,7 @@ const Home = () => {
   const arrAll = [];
   const [categories, setCategories] = useState([]);
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const [reminders, setReminders] = useState([]);
   const user = JSON.parse(localStorage.getItem('USER'));
@@ -50,12 +48,12 @@ const Home = () => {
     }
     const currentDate = new Date().getDate;
     if (new Date(moment(reminder.due_date).format("DD/MM/YYYY")) === currentDate) {
-      console.log(currentDate);
       arrToday.push(reminder);
     }
     if (reminder.status === "Completed" || reminder.status === "Pending") {
       arrAll.push(reminder)
     }
+    return true;
   })
 
 
@@ -90,20 +88,20 @@ const Home = () => {
     setSelectedButton(button);
   };
 
-  const deleteReminder = (id) => {
-    if (JSON.parse(localStorage.getItem('USER'))) {
-      const option = {
-        method: "DELETE"
-      }
-      fetch(`http://localhost:5000/api/v1/reminders/${id}`, option)
-        .then(() => {
-          window.location.reload();
-        }
-        )
-    } else {
-      navigate('/api/v1/auth');
-    }
-  }
+  // const deleteReminder = (id) => {
+  //   if (JSON.parse(localStorage.getItem('USER'))) {
+  //     const option = {
+  //       method: "DELETE"
+  //     }
+  //     fetch(`http://localhost:5000/api/v1/reminders/${id}`, option)
+  //       .then(() => {
+  //         window.location.reload();
+  //       }
+  //       )
+  //   } else {
+  //     navigate('/api/v1/auth');
+  //   }
+  // }
 
 
   const renderContent = () => {

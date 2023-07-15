@@ -1,6 +1,5 @@
-import { Col, Container, Row, Table } from "react-bootstrap";
-import { React, useEffect, useState } from "react";
-import { MDBBadge, MDBBtn, MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
+import { React } from "react";
+import { MDBBadge, MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
 import '../styles/Table.style.css'
 import moment from 'moment';
 

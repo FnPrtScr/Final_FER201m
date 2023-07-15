@@ -1,6 +1,5 @@
 import React from 'react'
-import { Col, Container, Row, Table } from "react-bootstrap";
-import { MDBBadge, MDBBtn, MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
+import { MDBBadge, MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
 const TablesReminderInMyList = () => {
     return (
         <>
