@@ -9,6 +9,7 @@ import '../styles/Home.style.css'
 import { Link, useNavigate } from 'react-router-dom';
 import Navbarr from './Navbar.component';
 import Tables from './Complete.home';
+import moment from 'moment';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -16,11 +17,11 @@ const Home = () => {
   const arrToday = [];
   const arrCompleted = [];
   const arrSchedule = [];
+  const arrAll = [];
 
   const [reminders, setReminder] = useState([]);
   const user = JSON.parse(localStorage.getItem('USER'));
   const getuserId = user.data.user_id;
-  console.log(getuserId);
 
   useEffect(() => {
     fetch(`http://localhost:5000/api/v1/reminders/u/${getuserId}`, {
@@ -29,7 +30,6 @@ const Home = () => {
       .then(resp => resp.json())
       .then(a => {
         setReminder(a.data.reminder.rows);
-        console.log(a);
       })
       .catch(err => {
         console.log(err.message);
@@ -37,14 +37,19 @@ const Home = () => {
   }, [getuserId]);
 
   reminders.map((reminder) => {
-    if(reminder.status === "Pending"){
+    if (reminder.status === "Pending") {
       arrSchedule.push(reminder);
     }
-    if(reminder.status === "Completed"){
+    if (reminder.status === "Completed") {
       arrCompleted.push(reminder);
     }
-    if(new Date(reminder.due_date) === new Date()){
+    const currentDate = new Date().getDate;
+    if (new Date(moment(reminder.due_date).format("DD/MM/YYYY")) === currentDate) {
+      console.log(currentDate);
       arrToday.push(reminder);
+    }
+    if(reminder.status === "Completed" || reminder.status === "Pending"){
+      arrAll.push(reminder)
     }
   })
 
@@ -78,7 +83,7 @@ const Home = () => {
       return <div><Tables header={"Schedule"} data={arrSchedule} /></div>;
     }
     if (selectedButton === 'all') {
-      return <div>All Content</div>;
+      return <div><Tables header={"All Reminder"} data={arrAll} /></div>;
     }
     if (selectedButton === 'flagged') {
       return <div>Flagged Content</div>;

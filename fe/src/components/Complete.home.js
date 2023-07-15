@@ -28,7 +28,7 @@ const Tables = (props) => {
                     {
                         data.map(r => {
                             return (
-                                <tr>
+                                <tr key={r.reminder_id}>
                                     <td>
                                         <div className='d-flex align-items-center'>
                                             <div className='ms-3'>
@@ -49,7 +49,7 @@ const Tables = (props) => {
                                         }
                                     </td>
                                     <td>Senior</td>
-                                    <td><td>{moment(r.due_date).format("DD/MM/YYYY")}</td></td>
+                                    <td>{moment(r.due_date).format("DD/MM/YYYY")}</td>
                                     <td>{moment(r.create_date).format("DD/MM/YYYY")}</td>
                                     <td>
                                         <button className="btn btn-primary">
