@@ -1,5 +1,5 @@
 // @ts-ignore
-const { Users, Categories, Reminders } = require('../models');
+const { Users, Categories, Reminders,Notification } = require('../models');
 const schedule = require('node-schedule');
 const sendMail = require('../utils/send-mail')
 const moment = require('moment');
@@ -47,6 +47,7 @@ class ReminderService {
         const reminderTime = moment(new Date(getReminder.due_date)).format('DD-MM-YYYY HH:mm');
         const [day, month, year, hour, minute] = reminderTime.split(/[- :]/);
         const cronExpression = `${minute} ${hour} ${day} ${month} *`;
+        const contentNoti=`Task ${getReminder.title} completed`;
 
         const subject = "Test";
         const content = "Test";
@@ -57,7 +58,9 @@ class ReminderService {
                 {
                     where: { reminder_id: getReminder.reminder_id }
                 });
+            await Notification.create({user_id:getReminder.Category.User.user_id,content:contentNoti,status:2})
         });
+        
         return createOne;
 
     }
@@ -95,6 +98,7 @@ class ReminderService {
             const reminderTime = moment(new Date(getReminder.due_date)).format('DD-MM-YYYY HH:mm');
             const [day, month, year, hour, minute] = reminderTime.split(/[- :]/);
             const cronExpression = `${minute} ${hour} ${day} ${month} *`;
+            const contentNoti=`Task ${getReminder.title} completed`;
 
             const subject = "Test";
             const content = "Test";
@@ -106,6 +110,7 @@ class ReminderService {
                         where: { reminder_id: getReminder.reminder_id }
                     }
                 );
+                await Notification.create({user_id:getReminder.Category.User.user_id,content:contentNoti,status:2})
             });
 
             return update;

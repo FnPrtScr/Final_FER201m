@@ -29,5 +29,11 @@ export const appRoutes = createBrowserRouter([
     {
         path: '/api/v1/app/viewallnotification',
         element: <Noti/>
-    }
+    },
+    // {
+        
+    //     path: 'admin/api/v1/app/',
+    //     element: <DashBoardAdmin/>
+    // }
+    
 ])

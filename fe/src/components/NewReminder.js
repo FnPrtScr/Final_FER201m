@@ -33,7 +33,7 @@ const NewReminder = () => {
                 description: description,
                 due_date: time,
                 priority: parseInt(priority),
-                status: 'pending',
+                status: 'Pending',
                 category_id: parseInt(cate),
                 user_id: JSON.parse(localStorage.getItem('USER')).data.user_id
             }
