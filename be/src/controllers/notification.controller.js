@@ -13,6 +13,12 @@ module.exports = {
             })
         );
     }),
+    updateBulkNoti: asyncHandler(async (req, res, next) => {
+        const  notification= await NotificationService.fncUpdateBulkNoti(req,res);
+
+        if (notification) return res.status(204).json(successResponse(204));
+        return res.status(500).json(errorResponse());
+    }),
 
     
 };
