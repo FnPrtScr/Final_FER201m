@@ -23,7 +23,7 @@ const Navbarr = () => {
                     </Nav>
                     <Nav>
 
-                        <Nav.Link href="#" onClick={handleLogout}>Logout</Nav.Link>
+                        <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>

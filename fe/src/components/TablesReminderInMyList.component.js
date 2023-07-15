@@ -1,34 +1,8 @@
-import { Col, Container, Row, Table } from "react-bootstrap";
-import { React, useEffect, useState } from "react";
-import { MDBBadge, MDBBtn, MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
-import '../styles/Table.style.css'
-
-const Tables = (props) => {
-    const {header} = props;
-    // const [reminder, setReminder] = useState([]);
-
-    // const user = JSON.parse(localStorage.getItem('USER'));
-    // const getuserId = user.data.user_id;
-    // console.log(getuserId);
-    // useEffect(() => {
-    //     fetch(`http://localhost:5000/api/v1/reminders/${getuserId}`, {
-    //         method: 'GET'
-    //     })
-    //         .then(resp => resp.json())
-    //         .then(a => {
-    //             setReminder(a.data.reminders.rows);
-    //             console.log(a);
-    //         })
-    //         .catch(err => {
-    //             console.log(err.message);
-    //         });
-    // }, [getuserId]);
-
+import React from 'react'
+import { MDBBadge, MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
+const TablesReminderInMyList = () => {
     return (
         <>
-            <h1>
-                {header}
-            </h1>
             <MDBTable align='middle'>
                 <MDBTableHead>
                     <tr>
@@ -78,4 +52,5 @@ const Tables = (props) => {
         </>
     );
 }
-export default Tables
+
+export default TablesReminderInMyList

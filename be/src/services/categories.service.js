@@ -48,18 +48,15 @@ class CategoriesService {
             const getEmailUser = category.User.email;
             const reminders = category.Reminders;
             reminders.forEach(async (reminder) => {
-                let getIdReminder=reminder.reminder_id;
-                const currentTime = new Date();
-                const reminderTime = new Date(reminder.due_date);
-                const difTime = reminderTime - currentTime;
-                if (difTime > 0) {
-                    const subject="Test";
-                    const content="Test";
-                    schedule.scheduleJob(reminderTime, () => {
-                        sendMail(getEmailUser,subject,content);
-                    });
-                    const updateReminder=await Reminders.update({data:{status:"Completed"}},{where:{reminder_id:getIdReminder}})
-                }
+                let getIdReminder = reminder.reminder_id;
+                console.log(reminder.due_date);
+                // const reminderTime = new Date(reminder.due_date);
+                // const subject = "Test";
+                // const content = "Test";
+                // schedule.scheduleJob(reminderTime, () => {
+                //     sendMail(getEmailUser, subject, content);
+                // });
+                // const updateReminder = await Reminders.update({ data: { status: "Completed" } }, { where: { reminder_id: getIdReminder } })
             });
         });
 
