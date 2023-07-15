@@ -8,10 +8,11 @@ import { FaListUl } from "react-icons/fa";
 import '../styles/Home.style.css'
 import { Link, useNavigate } from 'react-router-dom';
 import Navbarr from './Navbar.component';
-import Tables from './Complete.home';
+import Tables from './Tables.component';
 import moment from 'moment';
 import NewReminder from './NewReminder';
 import NewCategory from './NewCategory';
+import TablesReminderInMyList from './TablesReminderInMyList.component'
 
 const Home = () => {
   const [selectedButton, setSelectedButton] = useState(null);
@@ -19,8 +20,11 @@ const Home = () => {
   const arrCompleted = [];
   const arrSchedule = [];
   const arrAll = [];
+  const [categories, setCategories] = useState([]);
 
-  const [reminders, setReminder] = useState([]);
+  const navigate = useNavigate();
+
+  const [reminders, setReminders] = useState([]);
   const user = JSON.parse(localStorage.getItem('USER'));
   const getuserId = user.data.user_id;
 
@@ -30,7 +34,7 @@ const Home = () => {
     })
       .then(resp => resp.json())
       .then(a => {
-        setReminder(a.data.reminder.rows);
+        setReminders(a.data.reminder.rows);
       })
       .catch(err => {
         console.log(err.message);
@@ -49,14 +53,12 @@ const Home = () => {
       console.log(currentDate);
       arrToday.push(reminder);
     }
-    if(reminder.status === "Completed" || reminder.status === "Pending"){
+    if (reminder.status === "Completed" || reminder.status === "Pending") {
       arrAll.push(reminder)
     }
   })
 
-  const [categories, setCategories] = useState([]);
 
-  const navigate = useNavigate();
 
   useEffect(() => {
     fetch(`http://localhost:5000/api/v1/reminders`)
@@ -125,90 +127,93 @@ const Home = () => {
     }
     if (selectedButton?.includes("myList-")) {
       const categoryId = selectedButton.split('-')[1];
-      return <div><TablesReminderInMyList/></div>;
+      return <div><TablesReminderInMyList /></div>;
     }
-    
+
     return null;
   };
 
   return (
-    <TabContainer>
-      <Row className='mb-0'>
-        <Col className='navLeft' xs={4}>
-          <Row className="mb-3" style={{ marginTop: '10px' }}>
-            <Form className="d-flex">
-              <Form.Control
-                type="search"
-                placeholder="Search"
-                className="me-2"
-                aria-label="Search"
-              />
-              <Button variant="outline-success">Search</Button>
-            </Form>
-          </Row>
-          <Row className='mb-3'>
-            <Col xs={6} className="d-flex flex-column">
-              <Button size='lg' variant="secondary" className="mb-2" onClick={() => handleButtonClick('total')}>
-                <FcTodoList />
-                <NavItem style={{ color: 'black' }}>Today</NavItem>
-              </Button>
-              <Button size='lg' variant="secondary" className="mb-2" onClick={() => handleButtonClick('scheduled')}><FcPlanner /> <NavItem>Scheduled</NavItem></Button>
-              <Button size='lg' variant="secondary" className="mb-2" onClick={() => handleButtonClick('all')}><FcDatabase /> <NavItem>All</NavItem></Button>
-            </Col>
-            <Col xs={6} className="d-flex flex-column">
-              <Button size='lg' variant="secondary" className="mb-2" onClick={() => handleButtonClick('flagged')}> <MdFlagCircle color='orange' /> <NavItem>Flagged</NavItem></Button>
-              <Button size='lg' variant="secondary" className="mb-2" onClick={() => handleButtonClick('completed')}><FcOk /> <NavItem>Completed</NavItem></Button>
-              <Button size='lg' variant="secondary" className="mb-2" onClick={() => handleButtonClick('assigned')}><FcBusinessman /> <NavItem>Assigned</NavItem></Button>
-            </Col>
-          </Row>
-          <Row className='mb-3' style={{ marginLeft: '0px' }}>
-            <FormLabel>My List</FormLabel>
-            <ListGroup style={{ maxHeight: '400px', height: '400px', overflowY: 'auto' }}>
-              {
-                categories.map(cate =>
-                  <ListGroup.Item action href="#link2">
-                    <div className='icon-link' style={{ backgroundColor: `${cate.color}` }}>
-                      <i className={cate.icon}></i>
-                    </div>
-                    {cate.name}
-                  </ListGroup.Item>
-                )
-              }
-            </ListGroup>
-          </Row>
-        </Col>
-        <Col xs={7}>
-          <Tab.Content>
-            {renderContent()}
-          </Tab.Content>
-        </Col>
-      </Row>
-      <Navbar className="bg-body-tertiary" style={{ height: '70px' }}>
-        <Navbar.Collapse className="justify-content-start">
-          <NavItem style={{ cursor: 'pointer' }} onClick={openModalReminder}><MdAddCircle color='rgb(0,122,255)' size='1.5em' />&emsp;Add New Reminder</NavItem>
-        </Navbar.Collapse>
-        <Navbar.Collapse className="justify-content-end">
-          <NavItem style={{ cursor: 'pointer' }} onClick={openModalCategory}><MdAddCircle color='rgb(0,122,255)' size='1.5em' />&emsp;Add Categories</NavItem>
+    <div>
+      <Navbarr />
+      <TabContainer>
+        <Row className='mb-0'>
+          <Col className='navLeft' xs={4}>
+            <Row className="mb-3" style={{ marginTop: '10px' }}>
+              <Form className="d-flex">
+                <Form.Control
+                  type="search"
+                  placeholder="Search"
+                  className="me-2"
+                  aria-label="Search"
+                />
+                <Button variant="outline-success">Search</Button>
+              </Form>
+            </Row>
+            <Row className='mb-3'>
+              <Col xs={6} className="d-flex flex-column">
+                <Button size='lg' variant="secondary" className="mb-2" onClick={() => handleButtonClick('total')}>
+                  <FcTodoList />
+                  <NavItem style={{ color: 'black' }}>Today</NavItem>
+                </Button>
+                <Button size='lg' variant="secondary" className="mb-2" onClick={() => handleButtonClick('scheduled')}><FcPlanner /> <NavItem>Scheduled</NavItem></Button>
+                <Button size='lg' variant="secondary" className="mb-2" onClick={() => handleButtonClick('all')}><FcDatabase /> <NavItem>All</NavItem></Button>
+              </Col>
+              <Col xs={6} className="d-flex flex-column">
+                <Button size='lg' variant="secondary" className="mb-2" onClick={() => handleButtonClick('flagged')}> <MdFlagCircle color='orange' /> <NavItem>Flagged</NavItem></Button>
+                <Button size='lg' variant="secondary" className="mb-2" onClick={() => handleButtonClick('completed')}><FcOk /> <NavItem>Completed</NavItem></Button>
+                <Button size='lg' variant="secondary" className="mb-2" onClick={() => handleButtonClick('assigned')}><FcBusinessman /> <NavItem>Assigned</NavItem></Button>
+              </Col>
+            </Row>
+            <Row className='mb-3' style={{ marginLeft: '0px' }}>
+              <FormLabel>My List</FormLabel>
+              <ListGroup style={{ maxHeight: '400px', height: '400px', overflowY: 'auto' }}>
+                {
+                  categories.map(cate =>
+                    <ListGroup.Item action href="#link2">
+                      <div className='icon-link' style={{ backgroundColor: `${cate.color}` }}>
+                        <i className={cate.icon}></i>
+                      </div>
+                      {cate.name}
+                    </ListGroup.Item>
+                  )
+                }
+              </ListGroup>
+            </Row>
+          </Col>
+          <Col xs={7}>
+            <Tab.Content>
+              {renderContent()}
+            </Tab.Content>
+          </Col>
+        </Row>
+        <Navbar className="bg-body-tertiary" style={{ height: '70px' }}>
+          <Navbar.Collapse className="justify-content-start">
+            <NavItem style={{ cursor: 'pointer' }} onClick={openModalReminder}><MdAddCircle color='rgb(0,122,255)' size='1.5em' />&emsp;Add New Reminder</NavItem>
+          </Navbar.Collapse>
+          <Navbar.Collapse className="justify-content-end">
+            <NavItem style={{ cursor: 'pointer' }} onClick={openModalCategory}><MdAddCircle color='rgb(0,122,255)' size='1.5em' />&emsp;Add Categories</NavItem>
 
-        </Navbar.Collapse>
-      </Navbar>
-      <div>
-        {
-          reminders.map(reminder =>
-            <div>
-              <button>{reminder.title}</button>
-              <span style={{ cursor: 'pointer' }} onClick={() => deleteReminder(reminder.reminder_id)}>Xoa</span>
-            </div>
-          )
-        }
-      </div>
+          </Navbar.Collapse>
+        </Navbar>
+        {/* <div>
+          {
+            reminders.map(reminder =>
+              <div>
+                <button>{reminder.title}</button>
+                <span style={{ cursor: 'pointer' }} onClick={() => deleteReminder(reminder.reminder_id)}>Xoa</span>
+              </div>
+            )
+          }
+        </div> */}
 
-      {/* cong */}
-      <NewReminder />
+        {/* cong */}
+        <NewReminder />
 
-      <NewCategory />
+        <NewCategory />
 
-    </TabContainer>
+      </TabContainer>
+    </div>
 
   )
 }
