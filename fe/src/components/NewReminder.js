@@ -58,10 +58,6 @@ const NewReminder = () => {
         }
     }
 
-    console.log(priority);
-    console.log(cate);
-    console.log(categories);
-
 
     return (
         <>

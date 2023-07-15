@@ -1,8 +1,19 @@
 import React from 'react'
 import { MDBBadge, MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
-const TablesReminderInMyList = () => {
+import moment from 'moment';
+import EditReminder from './EditReminder.component';
+import {  Button} from 'react-bootstrap'
+
+
+const TablesReminderInMyList = (props) => {
+    const { header, data } = props;
+    const [modalShow, setModalShow] = React.useState(false);
+
     return (
         <>
+            <h1>
+                {header}
+            </h1>
             <MDBTable align='middle'>
                 <MDBTableHead>
                     <tr>
@@ -16,37 +27,50 @@ const TablesReminderInMyList = () => {
                     </tr>
                 </MDBTableHead>
                 <MDBTableBody>
-                    <tr>
-                        <td>
-                            <div className='d-flex align-items-center'>
-                                <div className='ms-3'>
-                                    <p className='fw-bold mb-1'>John Doe</p>
-                                    <p className='text-muted mb-0'>john.doe@gmail.com</p>
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <p className='fw-normal mb-1'>Software engineer</p>
-                            <p className='text-muted mb-0'>IT department</p>
-                        </td>
-                        <td>
-                            <MDBBadge color='success' pill>
-                                Active
-                            </MDBBadge>
-                        </td>
-                        <td>Senior</td>
-                        <td></td>
-                        <td></td>
-                        <td>
-                            <button className="btn btn-primary">
-                                Edit
-                            </button>
-                            <button className="btn btn-danger">
-                                Delete
-                            </button>
-                        </td>
-                        
-                    </tr>
+                    {
+                        data.map(r => {
+                            return (
+                                <tr key={r.reminder_id}>
+                                    <td>
+                                        <div className='d-flex align-items-center'>
+                                            <div className='ms-3'>
+                                                <p className='fw-bold mb-1'>{r.title}</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <p className='fw-normal mb-1'>{r.description}</p>
+                                    </td>
+                                    <td>
+                                        {
+                                            r.status === "Completed" ? <MDBBadge color='success' pill>
+                                                Completed
+                                            </MDBBadge> : <MDBBadge color='warning' pill>
+                                                Pending
+                                            </MDBBadge>
+                                        }
+                                    </td>
+                                    <td>Senior</td>
+                                    <td>{moment(r.due_date).format("DD/MM/YYYY")}</td>
+                                    <td>{moment(r.create_date).format("DD/MM/YYYY")}</td>
+                                    <td>
+                                        <Button variant="primary" onClick={() => setModalShow(true)}>
+                                            Edit
+                                        </Button>
+                                        <EditReminder
+                                            show={modalShow}
+                                            onHide={() => setModalShow(false)}
+                                        />
+                                        <button className="btn btn-danger">
+                                            Delete
+                                        </button>
+                                    </td>
+
+                                </tr>
+
+                            )
+                        })
+                    }
                 </MDBTableBody>
             </MDBTable>
         </>
