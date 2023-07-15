@@ -70,8 +70,8 @@ const NewCategory = () => {
             <button style={{ backgroundColor: 'burlywood' }} className={colorCategory === 'burlywood' ? 'color active-color' : 'color'} onClick={() => setColorCategory('burlywood')}></button>
           </div>
           <div className="button">
-            <span className="btn-cancel" onClick={closeModalCategory} >Cancel</span>
-            <button style={{ marginLeft: "6px" }} className="btn-create" onClick={createCategory}>Create</button>
+            <button className="btn-cancel" onClick={closeModalCategory} >Cancel</button>
+            <button style={{ marginLeft: "6px" }} className="btn btn-primary" onClick={createCategory}>Create</button>
           </div>
         </div>
       </div>
