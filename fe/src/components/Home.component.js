@@ -1,18 +1,52 @@
 import React from 'react'
-import { useState,useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 import { Col, Navbar, Row, Button, Form, FormLabel, Tab, NavItem, ListGroup, TabContainer } from 'react-bootstrap'
 import { MdFlagCircle, MdAddCircle } from "react-icons/md";
 import { FcPlanner, FcTodoList, FcOk, FcBusinessman, FcDatabase } from "react-icons/fc";
 import { FaListUl } from "react-icons/fa";
 import '../styles/Home.style.css'
-import { Link,useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Navbarr from './Navbar.component';
 import Tables from './Complete.home';
 
 const Home = () => {
   const navigate = useNavigate();
   const [selectedButton, setSelectedButton] = useState(null);
+  const arrToday = [];
+  const arrCompleted = [];
+  const arrSchedule = [];
+
+  const [reminders, setReminder] = useState([]);
+  const user = JSON.parse(localStorage.getItem('USER'));
+  const getuserId = user.data.user_id;
+  console.log(getuserId);
+
+  useEffect(() => {
+    fetch(`http://localhost:5000/api/v1/reminders/u/${getuserId}`, {
+      method: 'GET'
+    })
+      .then(resp => resp.json())
+      .then(a => {
+        setReminder(a.data.reminder.rows);
+        console.log(a);
+      })
+      .catch(err => {
+        console.log(err.message);
+      });
+  }, [getuserId]);
+
+  reminders.map((reminder) => {
+    if(reminder.status === "Pending"){
+      arrSchedule.push(reminder);
+    }
+    if(reminder.status === "Completed"){
+      arrCompleted.push(reminder);
+    }
+    if(new Date(reminder.due_date) === new Date()){
+      arrToday.push(reminder);
+    }
+  })
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem('USER'));
@@ -38,10 +72,10 @@ const Home = () => {
 
   const renderContent = () => {
     if (selectedButton === 'total') {
-      return <div><Tables header={"Today"}/></div>;
+      return <div><Tables header={"Today"} data={arrToday} /></div>;
     }
     if (selectedButton === 'scheduled') {
-      return <div>Scheduled Content</div>;
+      return <div><Tables header={"Schedule"} data={arrSchedule} /></div>;
     }
     if (selectedButton === 'all') {
       return <div>All Content</div>;
@@ -50,7 +84,7 @@ const Home = () => {
       return <div>Flagged Content</div>;
     }
     if (selectedButton === 'completed') {
-      return <div>Completed Content</div>;
+      return <div><Tables header={"Complete"} data={arrCompleted} /></div>;
     }
     if (selectedButton === 'assigned') {
       return <div>Assigned Content</div>;

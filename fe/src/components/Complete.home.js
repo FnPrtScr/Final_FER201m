@@ -2,27 +2,10 @@ import { Col, Container, Row, Table } from "react-bootstrap";
 import { React, useEffect, useState } from "react";
 import { MDBBadge, MDBBtn, MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
 import '../styles/Table.style.css'
+import moment from 'moment';
 
 const Tables = (props) => {
-    const {header} = props;
-    // const [reminder, setReminder] = useState([]);
-
-    // const user = JSON.parse(localStorage.getItem('USER'));
-    // const getuserId = user.data.user_id;
-    // console.log(getuserId);
-    // useEffect(() => {
-    //     fetch(`http://localhost:5000/api/v1/reminders/${getuserId}`, {
-    //         method: 'GET'
-    //     })
-    //         .then(resp => resp.json())
-    //         .then(a => {
-    //             setReminder(a.data.reminders.rows);
-    //             console.log(a);
-    //         })
-    //         .catch(err => {
-    //             console.log(err.message);
-    //         });
-    // }, [getuserId]);
+    const { header, data } = props;
 
     return (
         <>
@@ -42,37 +25,46 @@ const Tables = (props) => {
                     </tr>
                 </MDBTableHead>
                 <MDBTableBody>
-                    <tr>
-                        <td>
-                            <div className='d-flex align-items-center'>
-                                <div className='ms-3'>
-                                    <p className='fw-bold mb-1'>John Doe</p>
-                                    <p className='text-muted mb-0'>john.doe@gmail.com</p>
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <p className='fw-normal mb-1'>Software engineer</p>
-                            <p className='text-muted mb-0'>IT department</p>
-                        </td>
-                        <td>
-                            <MDBBadge color='success' pill>
-                                Active
-                            </MDBBadge>
-                        </td>
-                        <td>Senior</td>
-                        <td></td>
-                        <td></td>
-                        <td>
-                            <button className="btn btn-primary">
-                                Edit
-                            </button>
-                            <button className="btn btn-danger">
-                                Delete
-                            </button>
-                        </td>
-                        
-                    </tr>
+                    {
+                        data.map(r => {
+                            return (
+                                <tr>
+                                    <td>
+                                        <div className='d-flex align-items-center'>
+                                            <div className='ms-3'>
+                                                <p className='fw-bold mb-1'>{r.title}</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <p className='fw-normal mb-1'>{r.description}</p>
+                                    </td>
+                                    <td>
+                                        {
+                                            r.status === "Completed" ? <MDBBadge color='success' pill>
+                                                Completed
+                                            </MDBBadge> : <MDBBadge color='warning' pill>
+                                                Pending
+                                            </MDBBadge>
+                                        }
+                                    </td>
+                                    <td>Senior</td>
+                                    <td><td>{moment(r.due_date).format("DD/MM/YYYY")}</td></td>
+                                    <td>{moment(r.create_date).format("DD/MM/YYYY")}</td>
+                                    <td>
+                                        <button className="btn btn-primary">
+                                            Edit
+                                        </button>
+                                        <button className="btn btn-danger">
+                                            Delete
+                                        </button>
+                                    </td>
+
+                                </tr>
+
+                            )
+                        })
+                    }
                 </MDBTableBody>
             </MDBTable>
         </>
