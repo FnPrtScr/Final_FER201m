@@ -6,6 +6,21 @@ import moment from 'moment';
 const Tables = (props) => {
     const { header, data } = props;
 
+
+
+    const deleteReminder = (id) => {
+        if (JSON.parse(localStorage.getItem('USER'))) {
+            const option = {
+                method: "DELETE"
+            }
+            fetch(`http://localhost:5000/api/v1/reminders/${id}`, option)
+                .then(() => {
+                    window.location.reload();
+                }
+                )
+        }
+    }
+
     return (
         <>
             <h1>
@@ -54,7 +69,7 @@ const Tables = (props) => {
                                         <button className="btn btn-primary">
                                             Edit
                                         </button>
-                                        <button className="btn btn-danger">
+                                        <button className="btn btn-danger" onClick={() => deleteReminder(r.reminder_id)}>
                                             Delete
                                         </button>
                                     </td>

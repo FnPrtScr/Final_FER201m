@@ -5,7 +5,6 @@ import { Col, Navbar, Row, Button, Form, FormLabel, Tab, NavItem, ListGroup, Tab
 import { MdFlagCircle, MdAddCircle } from "react-icons/md";
 import { FcPlanner, FcTodoList, FcOk, FcBusinessman, FcDatabase } from "react-icons/fc";
 import '../styles/Home.style.css'
-// import {  useNavigate } from 'react-router-dom';
 import Tables from './Tables.component';
 import moment from 'moment';
 import NewReminder from './NewReminder';
@@ -19,8 +18,6 @@ const Home = () => {
   const arrSchedule = [];
   const arrAll = [];
   const [categories, setCategories] = useState([]);
-
-  // const navigate = useNavigate();
 
   const [reminders, setReminders] = useState([]);
   const user = JSON.parse(localStorage.getItem('USER'));
@@ -56,6 +53,19 @@ const Home = () => {
     return true;
   })
 
+  const deleteCategories = (id) => {
+    if (window.confirm("Do you want to remove")) {
+      const option = {
+        method: "DELETE",
+      }
+      fetch(`http://localhost:5000/api/v1/categories/${id}`, option)
+        .then(() => {
+          alert("Delete success.");
+          window.location.reload()
+        }
+        )
+    }
+  }
 
 
   useEffect(() => {
@@ -88,21 +98,6 @@ const Home = () => {
     setSelectedButton(button);
   };
 
-  // const deleteReminder = (id) => {
-  //   if (JSON.parse(localStorage.getItem('USER'))) {
-  //     const option = {
-  //       method: "DELETE"
-  //     }
-  //     fetch(`http://localhost:5000/api/v1/reminders/${id}`, option)
-  //       .then(() => {
-  //         window.location.reload();
-  //       }
-  //       )
-  //   } else {
-  //     navigate('/api/v1/auth');
-  //   }
-  // }
-
 
   const renderContent = () => {
     if (selectedButton === 'total') {
@@ -125,9 +120,9 @@ const Home = () => {
     }
     if (selectedButton?.includes("myList-")) {
       const categoryId = selectedButton.split('-')[1];
-      const reminderr=[]
-      reminderr.filter(r=>r.category_id === +categoryId)
-      return <div><TablesReminderInMyList data={reminderr}/></div>;
+      const reminderr = []
+      reminderr.filter(r => r.category_id === +categoryId)
+      return <div><TablesReminderInMyList data={reminderr} /></div>;
     }
 
     return null;

@@ -115,7 +115,7 @@ const NewReminder = () => {
                             <select onChange={(e) => setCate(e.target.value)}>
                                 {
                                     categories.map(cate =>
-                                        <option value={cate.category_id} key={cate.id}>{cate.name}</option>
+                                        <option value={cate.category_id} key={cate.category_id}>{cate.name}</option>
                                     )
                                 }
                             </select>
