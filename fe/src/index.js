@@ -3,7 +3,9 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import "bootstrap/dist/css/bootstrap.min.css";
-
+import 'react-datetime-picker/dist/DateTimePicker.css';
+import 'react-calendar/dist/Calendar.css';
+import 'react-clock/dist/Clock.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
