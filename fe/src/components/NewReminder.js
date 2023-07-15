@@ -4,14 +4,14 @@ import { useNavigate } from 'react-router-dom'
 
 
 const NewReminder = () => {
-
+    
     const [categories, setCategories] = useState([]);
 
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [time, setTime] = useState(new Date());
     const [priority, setPriority] = useState(0);
-    const [cate, setCate] = useState(1);
+    const [cate, setCate] = useState(0);
 
     const navigate = useNavigate();
 
@@ -33,7 +33,7 @@ const NewReminder = () => {
                 description: description,
                 due_date: time,
                 priority: parseInt(priority),
-                status: 'pending',
+                status: 'Pending',
                 category_id: parseInt(cate),
                 user_id: JSON.parse(localStorage.getItem('USER')).data.user_id
             }
@@ -45,7 +45,7 @@ const NewReminder = () => {
                 },
                 body: JSON.stringify(data)
             }
-            fetch(`http://localhost:5000/api/v1/reminders`, option)
+            fetch('http://localhost:5000/api/v1/reminders', option)
                 .then(res => res.json())
                 .then((data) => {
                     if (data !== null) {
@@ -57,6 +57,10 @@ const NewReminder = () => {
             navigate('/api/v1/auth');
         }
     }
+
+    console.log(priority);
+    console.log(cate);
+    console.log(categories);
 
 
     return (
@@ -93,7 +97,7 @@ const NewReminder = () => {
                             <select onChange={(e) => setCate(e.target.value)}>
                                 {
                                     categories.map(cate =>
-                                        <option key={cate.id}>{cate.name}</option>
+                                        <option value={cate.category_id} key={cate.id}>{cate.name}</option>
                                     )
                                 }
                             </select>

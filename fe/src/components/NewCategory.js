@@ -10,7 +10,7 @@ const NewCategory = () => {
   const navigate = useNavigate();
 
   const createCategory = () => {
-    if (JSON.parse(localStorage.getItem('USER'))) {
+    if (JSON.parse(localStorage.getItem('USER')) && nameCate !== '') {
       const data = {
         name: nameCate,
         color: colorCategory,
@@ -33,8 +33,10 @@ const NewCategory = () => {
             window.location.reload();
           }
         })
-    } else {
+    } else if (!JSON.parse(localStorage.getItem('USER'))) {
       navigate('/api/v1/auth')
+    } else if (nameCate === '') {
+      alert('Hay nhap ten');
     }
   }
 

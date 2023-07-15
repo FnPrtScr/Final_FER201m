@@ -147,16 +147,7 @@ const Home = () => {
 
         </Navbar.Collapse>
       </Navbar>
-      <div>
-        {
-          reminders.map(reminder =>
-            <div>
-              <button>{reminder.title}</button>
-              <span style={{ cursor: 'pointer' }} onClick={() => deleteReminder(reminder.reminder_id)}>Xoa</span>
-            </div>
-          )
-        }
-      </div>
+
 
       {/* cong */}
       <NewReminder />
