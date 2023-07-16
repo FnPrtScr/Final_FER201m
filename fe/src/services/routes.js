@@ -4,7 +4,7 @@ import SignUp from "../components/signup.component";
 import Verify from "../components/Verify.component";
 import Home from "../components/Home.component";
 import Noti from "../components/Noti.component";
-// import EditReminder from "../components/EditReminder.component";
+import EditReminder from "../components/EditReminder.component";
 
 export const appRoutes = createBrowserRouter([
     {
@@ -31,10 +31,10 @@ export const appRoutes = createBrowserRouter([
         path: '/api/v1/app/viewallnotification',
         element: <Noti/>
     },
-    // {
-    //     path:`/api/v1/app/reminders/:reminder_id`,
-    //     element: <EditReminder/>
-    // }
+    {
+        path:`/api/v1/reminders/:reminder_id`,
+        element: <EditReminder/>
+    }
     // {
         
     //     path: 'admin/api/v1/app/',
