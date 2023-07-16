@@ -1,10 +1,26 @@
-import { React } from "react";
+import React from 'react'
 import { MDBBadge, MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
-import '../styles/Table.style.css'
 import moment from 'moment';
+import EditReminder from './EditReminder.component';
+import {  Button} from 'react-bootstrap'
 
-const Tables = (props) => {
+
+const ResultSearch = (props) => {
     const { header, data } = props;
+    const [modalShow, setModalShow] = React.useState(false);
+
+    const deleteReminder = (id) => {
+        if (JSON.parse(localStorage.getItem('USER'))) {
+            const option = {
+                method: "DELETE"
+            }
+            fetch(`http://localhost:5000/api/v1/reminders/${id}`, option)
+                .then(() => {
+                    window.location.reload();
+                }
+                )
+        }
+    }
 
     return (
         <>
@@ -51,10 +67,14 @@ const Tables = (props) => {
                                     <td>{moment(r.due_date).format("DD/MM/YYYY")}</td>
                                     <td>{moment(r.create_date).format("DD/MM/YYYY")}</td>
                                     <td>
-                                        <button className="btn btn-primary">
+                                        <Button variant="primary" onClick={() => setModalShow(true)}>
                                             Edit
-                                        </button>
-                                        <button className="btn btn-danger">
+                                        </Button>
+                                        <EditReminder
+                                            show={modalShow}
+                                            onHide={() => setModalShow(false)}
+                                        />
+                                        <button className="btn btn-danger" onClick={() => deleteReminder(r.reminder_id)}>
                                             Delete
                                         </button>
                                     </td>
@@ -69,4 +89,5 @@ const Tables = (props) => {
         </>
     );
 }
-export default Tables
+
+export default ResultSearch;

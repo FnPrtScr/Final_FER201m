@@ -11,6 +11,7 @@ import NewReminder from './NewReminder';
 import NewCategory from './NewCategory';
 import Navbarr from './Navbar.component';
 import TablesReminderInMyList from './TablesReminderInMyList.component';
+import ResultSearch from './ResultSearch.component';
 const Home = () => {
   const [selectedButton, setSelectedButton] = useState(null);
   const arrToday = [];
@@ -20,8 +21,11 @@ const Home = () => {
   const [categories, setCategories] = useState([]);
 
   const [reminders, setReminders] = useState([]);
+  const [searchReminders, setSearchReminder] = useState([]);
+  const [isSearch, setIsSearch] = useState(false);
   const user = JSON.parse(localStorage.getItem('USER'));
   const getuserId = user.data.user_id;
+  const [keyword, setKeyword] = useState('');
 
   useEffect(() => {
     fetch(`http://localhost:5000/api/v1/reminders/u/${getuserId}`, {
@@ -96,7 +100,24 @@ const Home = () => {
 
   const handleButtonClick = (button) => {
     setSelectedButton(button);
+    setIsSearch(false);
   };
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    let data = []
+    if(keyword !== '') {
+        data = reminders.filter(r => r.title.includes(keyword));
+    }
+    setSearchReminder(data);
+    setIsSearch(true)
+    setSelectedButton(null)
+  }
+
+  const handleKeyword = (e) => {
+    setKeyword(e.target.value);
+    setIsSearch(false);
+  }
 
 
   const renderContent = () => {
@@ -141,14 +162,16 @@ const Home = () => {
         <Row className='mb-0'>
           <Col className='navLeft' xs={4}>
             <Row className="mb-3" style={{ marginTop: '10px' }}>
-              <Form className="d-flex">
+              <Form className="d-flex" onSubmit={e => handleSearch(e)} >
                 <Form.Control
                   type="search"
                   placeholder="Search"
                   className="me-2"
                   aria-label="Search"
+                  value={keyword}
+                  onChange={e => handleKeyword(e)}
                 />
-                <Button variant="outline-success">Search</Button>
+                <Button type='submit' variant="outline-success">Search</Button>
               </Form>
             </Row>
             <Row className='mb-3'>
@@ -187,6 +210,7 @@ const Home = () => {
           <Col xs={7}>
             <Tab.Content>
               {renderContent()}
+              {isSearch && <ResultSearch header={"Result search"} data={searchReminders} /> }
             </Tab.Content>
           </Col>
         </Row>
