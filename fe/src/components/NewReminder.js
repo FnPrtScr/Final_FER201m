@@ -112,7 +112,7 @@ const NewReminder = () => {
                             <span>Priority: </span>
                             <select onChange={(e) => setPriority(e.target.value)}>
                                 <option value={0}>None</option>
-                                <option value={1}>Short</option>
+                                <option value={1}>Low</option>
                                 <option value={2}>Medium</option>
                                 <option value={3}>High</option>
                             </select>

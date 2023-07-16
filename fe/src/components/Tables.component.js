@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import { MDBBadge, MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
 import { Link } from 'react-router-dom';
 import '../styles/Table.style.css'
@@ -7,7 +7,7 @@ import TablePagination from './Pagination.component';
 
 const Tables = (props) => {
     const { header, data, handleDelete } = props;
-
+    const [categories, setCategories] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10; // số lượng hàng trong mỗi trang
 
@@ -24,7 +24,6 @@ const Tables = (props) => {
     const handlePageChange = (page) => {
         setCurrentPage(page);
     };
-
     return (
         <>
             <h1>
@@ -66,11 +65,18 @@ const Tables = (props) => {
                                             </MDBBadge>
                                         }
                                     </td>
-                                    <td>Senior</td>
+                                    <td>
+                                        {r.priority === 1
+                                            ? <span style={{ color: "green" }}>Low</span>
+                                            : r.priority === 2
+                                                ? <span style={{ color: "orange" }}>Medium</span>
+                                                : <span style={{ color: "red" }}>Hight</span>
+                                        }
+                                    </td>
                                     <td>{moment(r.due_date).format("DD/MM/YYYY")}</td>
                                     <td>{moment(r.create_date).format("DD/MM/YYYY")}</td>
                                     <td>
-                                    <Link className='btn btn-primary m-3' to={`/api/v1/reminders/${r.reminder_id}`}>Edit</Link>
+                                        <Link className='btn btn-primary m-3' to={`/api/v1/reminders/${r.reminder_id}`}>Edit</Link>
                                         <button className="btn btn-danger" onClick={() => handleDelete(r.reminder_id)}>
                                             Delete
                                         </button>
