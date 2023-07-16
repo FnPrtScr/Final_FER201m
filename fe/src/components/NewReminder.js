@@ -9,7 +9,8 @@ import moment from 'moment';
 const NewReminder = () => {
 
     const [categories, setCategories] = useState([]);
-
+    const user = JSON.parse(localStorage.getItem('USER'));
+    const getuserId = user.data.user_id;
 
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
@@ -22,7 +23,7 @@ const NewReminder = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetch(`http://localhost:5000/api/v1/categories`)
+        fetch(`http://localhost:5000/api/v1/categories/my-reminder/${getuserId}`)
             .then(res => res.json())
             .then(data => {
                 if(data.data.categories.rows.length !== 0) {
@@ -30,7 +31,7 @@ const NewReminder = () => {
                     setCate(data.data.categories.rows[0].category_id);
                 }
             })
-    }, [])
+    }, [getuserId])
 
     const closeModalReminder = () => {
         const modal = document.querySelector('.modal-reminder');

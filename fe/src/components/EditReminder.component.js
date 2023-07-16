@@ -7,7 +7,8 @@ import { updateReminderById, getReminderByid } from '../services/reminder.servic
 const EditReminder = () => {
     const { reminder_id } = useParams();
     const [categories, setCategories] = useState([]);
-    
+    const user = JSON.parse(localStorage.getItem('USER'));
+    const getuserId = user.data.user_id;
 
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
@@ -19,13 +20,13 @@ const EditReminder = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetch(`http://localhost:5000/api/v1/categories`)
+        fetch(`http://localhost:5000/api/v1/categories/my-reminder/${getuserId}`)
             .then(res => res.json())
             .then(data => {
                 setCategories(data.data.categories.rows);
                 setCate(data.data.categories.rows[0].category_id);
             })
-    }, [])
+    }, [getuserId])
     const checkValidate = () => {
         if (listInputs.every(listInput => listInput !== '')) {
             return true;
