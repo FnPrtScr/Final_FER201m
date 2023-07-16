@@ -8,26 +8,26 @@ const NotiHome = () => {
     const user = JSON.parse(localStorage.getItem('USER'));
     const getuserId = user.data.user_id;
 
-    const changeStatus = (t) => {
-        let id = t.id;
-        let content = t.content;
-        let user_id = t.user_id;
-        let status = t.completed?2:1;
-        let create_date = t.create_date;
-        let update_date = t.update_date;
+    // const changeStatus = (t) => {
+    //     let id = t.id;
+    //     let content = t.content;
+    //     let user_id = t.user_id;
+    //     let status = t.completed?2:1;
+    //     let create_date = t.create_date;
+    //     let update_date = t.update_date;
 
-        const newTodo = {id, content, user_id, status,create_date,update_date};
+    //     const newTodo = {id, content, user_id, status,create_date,update_date};
 
-        fetch('http://localhost:9999/todo/'+t.id, {
-            method: 'PUT',
-            headers: {'Content-Type':'Application/Json'},
-            body: JSON.stringify(newTodo)
-        })
-        .then(()=>{
-            alert('Change success.');
-            window.location.reload();
-        })
-    }
+    //     fetch('http://localhost:9999/todo/'+t.id, {
+    //         method: 'PUT',
+    //         headers: {'Content-Type':'Application/Json'},
+    //         body: JSON.stringify(newTodo)
+    //     })
+    //     .then(()=>{
+    //         alert('Change success.');
+    //         window.location.reload();
+    //     })
+    // }
     useEffect(() => {
         fetch(`http://localhost:5000/api/v1/notifications/${getuserId}`, {
             method: 'GET'
@@ -88,7 +88,7 @@ const NotiHome = () => {
                     id="dropdown-67443507"
                     variant="default"
                     className="m-0"
-                    onClick={()=>changeStatus(t)}
+                    // onClick={()=>changeStatus(t)}
                 >
                     <i className="nc-icon nc-planet"></i>
                     <FcAdvertising style={{ height: '30px', width: '30px' }} variant="primary" onClick={handleShow} />

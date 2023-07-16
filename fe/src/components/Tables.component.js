@@ -1,10 +1,28 @@
-import { React } from "react";
+import { React, useState } from "react";
 import { MDBBadge, MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
 import '../styles/Table.style.css'
 import moment from 'moment';
+import TablePagination from './Pagination.component';
 
 const Tables = (props) => {
     const { header, data } = props;
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 10; // số lượng hàng trong mỗi trang
+
+    // Tính toán số trang dựa trên dữ liệu tổng cộng
+    const totalPages = Math.ceil(data.length / itemsPerPage);
+
+    // Lấy danh sách dữ liệu cho trang hiện tại
+    const currentData = data.slice(
+        (currentPage - 1) * itemsPerPage,
+        currentPage * itemsPerPage
+    );
+
+    // Xử lý sự kiện thay đổi trang
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+    };
 
     return (
         <>
@@ -25,7 +43,7 @@ const Tables = (props) => {
                 </MDBTableHead>
                 <MDBTableBody>
                     {
-                        data.map(r => {
+                        currentData.map(r => {
                             return (
                                 <tr key={r.reminder_id}>
                                     <td>
@@ -66,6 +84,11 @@ const Tables = (props) => {
                     }
                 </MDBTableBody>
             </MDBTable>
+            <TablePagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+            />
         </>
     );
 }
