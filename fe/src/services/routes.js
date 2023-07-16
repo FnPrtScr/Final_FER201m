@@ -5,6 +5,7 @@ import Verify from "../components/Verify.component";
 import Home from "../components/Home.component";
 import Noti from "../components/Noti.component";
 import EditReminder from "../components/EditReminder.component";
+import DashboardAdmin from "../components/DashboardAdmin.component";
 
 export const appRoutes = createBrowserRouter([
     {
@@ -34,11 +35,10 @@ export const appRoutes = createBrowserRouter([
     {
         path:`/api/v1/reminders/:reminder_id`,
         element: <EditReminder/>
+    },
+    {
+        path: 'admin/api/v1/app/',
+        element: <DashboardAdmin/>
     }
-    // {
-        
-    //     path: 'admin/api/v1/app/',
-    //     element: <DashBoardAdmin/>
-    // }
     
 ])

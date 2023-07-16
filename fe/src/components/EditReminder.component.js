@@ -1,16 +1,13 @@
 import React from 'react'
-import { Col, Navbar, Row, Modal, Button, Form, FormLabel, Tab, NavItem, ListGroup, TabContainer, InputGroup } from 'react-bootstrap'
 import { useState, useEffect } from 'react';
 import DateTimePicker from 'react-datetime-picker'
-import { useNavigate, useHistory, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import Navbarr from './Navbar.component';
 import { updateReminderById, getReminderByid } from '../services/reminder.service';
 const EditReminder = () => {
     const { reminder_id } = useParams();
-    const [reminder, setReminder] = useState({})
     const [categories, setCategories] = useState([]);
-    const [tempPriority, setTempPriority] = useState(0);
-
+    
 
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
@@ -47,7 +44,7 @@ const EditReminder = () => {
                 setCate(res.data.data.category_id)
             })
 
-    }, [])
+    }, [reminder_id])
     const handleSubmit = () => {
         if (!checkValidate()) {
             alert('Hay nhap du thong tin')

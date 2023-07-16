@@ -3,6 +3,7 @@ import DateTimePicker from 'react-datetime-picker'
 import { useNavigate } from 'react-router-dom'
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
+import moment from 'moment';
 
 
 const NewReminder = () => {
@@ -12,7 +13,7 @@ const NewReminder = () => {
 
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-    const [time, setTime] = useState(new Date());
+    const [time, setTime] = useState(moment(new Date()).format('YYYY-MM-DD HH:mm'));
     const [priority, setPriority] = useState(0);
     const [cate, setCate] = useState(0);
 
@@ -47,6 +48,7 @@ const NewReminder = () => {
             alert('Hay nhap du thong tin')
         } else {
             if (JSON.parse(localStorage.getItem('USER'))) {
+                
                 const data = {
                     title: title,
                     description: description,
@@ -64,6 +66,7 @@ const NewReminder = () => {
                     },
                     body: JSON.stringify(data)
                 }
+                console.log(option.body);
                 fetch('http://localhost:5000/api/v1/reminders', option)
                     .then(res => res.json())
                     .then((data) => {

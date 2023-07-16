@@ -23,7 +23,7 @@ module.exports = (sequelize) => {
             
             title: DataTypes.STRING,
             description: DataTypes.STRING,
-            due_date: DataTypes.DATE,
+            due_date: DataTypes.STRING,
             priority: DataTypes.INTEGER,
             status: DataTypes.STRING,
             category_id:DataTypes.INTEGER,
