@@ -94,8 +94,12 @@ const Home = () => {
   }
 
   const openModalCategory = () => {
-    const modal = document.querySelector('.modal-category');
-    modal.classList.add('open');
+    if (categories.length !== 0) {
+      const modal = document.querySelector('.modal-reminder');
+      modal.classList.add('open');
+    } else {
+
+    }
   }
 
   const handleButtonClick = (button) => {
