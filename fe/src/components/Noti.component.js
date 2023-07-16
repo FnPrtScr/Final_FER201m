@@ -7,7 +7,6 @@ const Noti = () => {
 
     const user = JSON.parse(localStorage.getItem('USER'));
     const getuserId = user.data.user_id;
-    console.log(getuserId);
     useEffect(() => {
         fetch(`http://localhost:5000/api/v1/notifications/${getuserId}`, {
             method: 'GET'

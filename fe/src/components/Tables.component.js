@@ -1,5 +1,6 @@
 import { React } from "react";
 import { MDBBadge, MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
+import { Link } from 'react-router-dom';
 import '../styles/Table.style.css'
 import moment from 'moment';
 
@@ -51,14 +52,11 @@ const Tables = (props) => {
                                     <td>{moment(r.due_date).format("DD/MM/YYYY")}</td>
                                     <td>{moment(r.create_date).format("DD/MM/YYYY")}</td>
                                     <td>
-                                        <button className="btn btn-primary">
-                                            Edit
-                                        </button>
+                                    <Link className='btn btn-primary m-3' to={`/api/v1/reminders/${r.reminder_id}`}>Edit</Link>
                                         <button className="btn btn-danger">
                                             Delete
                                         </button>
                                     </td>
-
                                 </tr>
 
                             )
