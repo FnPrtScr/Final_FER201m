@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Table, Dropdown, Nav } from 'react-bootstrap';
 import { FcAdvertising } from 'react-icons/fc'
+import { Link } from 'react-router-dom';
 
 const NotiHome = () => {
     const [noti, setNoti] = useState([]);
@@ -9,25 +10,20 @@ const NotiHome = () => {
     const getuserId = user.data.user_id;
 
     // const changeStatus = (t) => {
-    //     let id = t.id;
-    //     let content = t.content;
-    //     let user_id = t.user_id;
-    //     let status = t.completed?2:1;
-    //     let create_date = t.create_date;
-    //     let update_date = t.update_date;
 
-    //     const newTodo = {id, content, user_id, status,create_date,update_date};
+    //     const newNoti = {
+    //         "id":1
+    //     };
 
-    //     fetch('http://localhost:9999/todo/'+t.id, {
-    //         method: 'PUT',
+    //     fetch('http://localhost:5000/api/v1/notifications/u/'+getuserId, {
+    //         method: 'POST',
     //         headers: {'Content-Type':'Application/Json'},
-    //         body: JSON.stringify(newTodo)
+    //         body: JSON.stringify(newNoti)
     //     })
-    //     .then(()=>{
-    //         alert('Change success.');
-    //         window.location.reload();
+    //     .then((e)=>{
+    //         e.preventDefault();
     //     })
-    // }
+    //  }
     useEffect(() => {
         fetch(`http://localhost:5000/api/v1/notifications/${getuserId}`, {
             method: 'GET'
@@ -47,40 +43,9 @@ const NotiHome = () => {
     };
     const slicedData = noti.slice(0, maxRows);
 
-    const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
-
     return (
         <>
-            {/* <div>
-                <FcAdvertising style={{ height: '30px', width: '30px' }} variant="primary" onClick={handleShow} />
-                <label style={{ transform: 'translateY(15px) translateX(-10px)', color:'red' }}> {countByAttribute(1)}</label>
-            </div>
 
-            <Modal show={show} onHide={handleClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Notification</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <Table>
-                        <tbody>
-                            {
-                                slicedData.map((i) => {
-                                    return (
-                                        <tr key={i.id}>
-                                            <th>{i.content}</th>
-                                        </tr>
-                                    )
-                                })
-                            }
-                        </tbody>
-                    </Table>
-                </Modal.Body>
-                <Modal.Footer>
-                    <a href='/api/v1/app/viewallnotification'>View All</a>
-                </Modal.Footer>
-            </Modal> */}
             <Dropdown as={Nav.Item}>
                 <Dropdown.Toggle
                     as={Nav.Link}
@@ -88,14 +53,16 @@ const NotiHome = () => {
                     id="dropdown-67443507"
                     variant="default"
                     className="m-0"
-                    // onClick={()=>changeStatus(t)}
+                // onClick={(t)=>changeStatus(t)}
                 >
                     <i className="nc-icon nc-planet"></i>
-                    <FcAdvertising style={{ height: '30px', width: '30px' }} variant="primary" onClick={handleShow} />
+                    <FcAdvertising style={{ height: '30px', width: '30px' }} variant="primary" />
                     <span className="notification">{countByAttribute(1)}</span>
                     <span className="d-lg-none ml-1">Notification</span>
                 </Dropdown.Toggle>
-                <Dropdown.Menu>
+                <Dropdown.Menu style={{ transform: 'translateY(0px) translateX(-250px)' }}>
+                    <h3 style={{ textAlign: "center" }}>Notification</h3>
+                    <hr />
                     {
                         slicedData.map((i) => {
                             return (
@@ -105,6 +72,10 @@ const NotiHome = () => {
                             )
                         })
                     }
+                    <hr />
+                    <div style={{ textAlign: "center" }}>
+                        <Link to={'/api/v1/app/viewallnotification'}  >View All</Link>
+                    </div>
                 </Dropdown.Menu>
             </Dropdown>
         </>

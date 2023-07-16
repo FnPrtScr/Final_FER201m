@@ -47,8 +47,9 @@ const Home = () => {
     if (reminder.status === "Completed") {
       arrCompleted.push(reminder);
     }
-    const currentDate = new Date().getDate;
-    if (new Date(moment(reminder.due_date).format("DD/MM/YYYY")) === currentDate) {
+    const getDateCurent= moment(Date.now()).format("DD/MM/YYYY");
+    const getDueDate = moment(reminder.due_date).format("DD/MM/YYYY");
+    if (getDueDate === getDateCurent) {
       arrToday.push(reminder);
     }
     if (reminder.status === "Completed" || reminder.status === "Pending") {
