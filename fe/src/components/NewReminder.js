@@ -25,8 +25,10 @@ const NewReminder = () => {
         fetch(`http://localhost:5000/api/v1/categories`)
             .then(res => res.json())
             .then(data => {
-                setCategories(data.data.categories.rows);
-                setCate(data.data.categories.rows[0].category_id);
+                if(data.data.categories.rows.length !== 0) {
+                    setCategories(data.data.categories.rows);
+                    setCate(data.data.categories.rows[0].category_id);
+                }
             })
     }, [])
 
@@ -44,6 +46,7 @@ const NewReminder = () => {
     }
 
     const createReminder = () => {
+        console.log(time.toString());
         if (!checkValidate()) {
             alert('Hay nhap du thong tin')
         } else {

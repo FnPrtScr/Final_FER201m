@@ -6,7 +6,7 @@ import moment from 'moment';
 import TablePagination from './Pagination.component';
 
 const Tables = (props) => {
-    const { header, data } = props;
+    const { header, data, handleDelete } = props;
 
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10; // số lượng hàng trong mỗi trang
@@ -71,7 +71,7 @@ const Tables = (props) => {
                                     <td>{moment(r.create_date).format("DD/MM/YYYY")}</td>
                                     <td>
                                     <Link className='btn btn-primary m-3' to={`/api/v1/reminders/${r.reminder_id}`}>Edit</Link>
-                                        <button className="btn btn-danger">
+                                        <button className="btn btn-danger" onClick={() => handleDelete(r.reminder_id)}>
                                             Delete
                                         </button>
                                     </td>

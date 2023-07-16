@@ -1,26 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { MDBBadge, MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
 import moment from 'moment';
 // import EditReminder from './EditReminder.component';
-import {  Button} from 'react-bootstrap'
+import { Button } from 'react-bootstrap'
 
 
 const ResultSearch = (props) => {
-    const { header, data } = props;
+    const { header, data, handleDelete } = props;
     const [modalShow, setModalShow] = React.useState(false);
 
-    const deleteReminder = (id) => {
-        if (JSON.parse(localStorage.getItem('USER'))) {
-            const option = {
-                method: "DELETE"
-            }
-            fetch(`http://localhost:5000/api/v1/reminders/${id}`, option)
-                .then(() => {
-                    window.location.reload();
-                }
-                )
-        }
-    }
 
     return (
         <>
@@ -74,7 +62,7 @@ const ResultSearch = (props) => {
                                             show={modalShow}
                                             onHide={() => setModalShow(false)}
                                         /> */}
-                                        <button className="btn btn-danger" onClick={() => deleteReminder(r.reminder_id)}>
+                                        <button className="btn btn-danger" onClick={() => handleDelete(r.reminder_id)}>
                                             Delete
                                         </button>
                                     </td>
