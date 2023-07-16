@@ -1,20 +1,12 @@
 import axios from 'axios';
 
-export const updateReminderById = async (reminder_id,user_id,
-    title,
-    description,
-    due_date,
-    priority,
-    category_id,) => {
+export const updateReminderById = async (reminder_id, data) => {
     return await axios.put(
         `http://localhost:5000/api/v1/reminders/${reminder_id}`,
-        {
-            user_id,
-            title,
-            description,
-            due_date,
-            priority,
-            category_id,
-        }
+        data
     )
+}
+
+export const getReminderByid = async (reminder_id) => {
+    return await axios.get(`http://localhost:5000/api/v1/reminders/${reminder_id}`)
 }

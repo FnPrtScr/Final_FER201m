@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 const TablesReminderInMyList = (props) => {
-    const { header, data } = props;
+    const { header, data, handleDelete } = props;
     const [modalShow, setModalShow] = React.useState(false);
     const [categories, setCategories] = useState([]);
     useEffect(() => {
@@ -14,14 +14,7 @@ const TablesReminderInMyList = (props) => {
             .then(res => res.json())
             .then(data => setCategories(data.data.categories.rows))
     }, [])
-    const openModalReminder = () => {
-        if (categories.length !== 0) {
-            const modal = document.querySelector('.modal-reminder');
-            modal.classList.add('open');
-        } else {
 
-        }
-    }
     return (
         <>
             <h1>
@@ -68,7 +61,7 @@ const TablesReminderInMyList = (props) => {
                                     <td>{moment(r.create_date).format("DD/MM/YYYY")}</td>
                                     <td>
                                         <Link className='btn btn-primary m-3' to={`/api/v1/reminders/${r.reminder_id}`}>Edit</Link>
-                                        <button className="btn btn-danger">
+                                        <button className="btn btn-danger" onClick={() => handleDelete(r.reminder_id)}>
                                             Delete
                                         </button>
                                     </td>
