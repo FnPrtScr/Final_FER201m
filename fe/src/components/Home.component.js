@@ -110,12 +110,8 @@ const Home = () => {
   }
 
   const openModalCategory = () => {
-    if (categories.length !== 0) {
-      const modal = document.querySelector('.modal-category');
-      modal.classList.add('open');
-    } else {
-
-    }
+    const modal = document.querySelector('.modal-category');
+    modal.classList.add('open');
   }
 
   const handleButtonClick = (button) => {
@@ -142,13 +138,13 @@ const Home = () => {
 
   const renderContent = () => {
     if (selectedButton === 'total') {
-      return <div><Tables header={"Today"} data={arrToday} handleDelete={deleteReminder}/></div>;
+      return <div><Tables header={"Today"} data={arrToday} handleDelete={deleteReminder} /></div>;
     }
     if (selectedButton === 'scheduled') {
       return <div><Tables header={"Schedule"} data={arrSchedule} /></div>;
     }
     if (selectedButton === 'all') {
-      return <div><Tables header={"All Reminder"} data={arrAll} handleDelete={deleteReminder}/></div>;
+      return <div><Tables header={"All Reminder"} data={arrAll} handleDelete={deleteReminder} /></div>;
     }
     if (selectedButton === 'flagged') {
       return <div>Flagged Content</div>;
@@ -230,7 +226,7 @@ const Home = () => {
           <Col xs={7}>
             <Tab.Content>
               {renderContent()}
-              {isSearch && <ResultSearch header={"Result search"} data={searchReminders} handleDelete={deleteReminder} checkSearch={isSearch} />}
+              {isSearch && <ResultSearch header={"Result search"} data={searchReminders} handleDelete={deleteReminder} />}
             </Tab.Content>
           </Col>
         </Row>

@@ -71,7 +71,7 @@ const Tables = (props) => {
                                     <td>{moment(r.create_date).format("DD/MM/YYYY")}</td>
                                     <td>
                                     <Link className='btn btn-primary m-3' to={`/api/v1/reminders/${r.reminder_id}`}>Edit</Link>
-                                        <button className="btn btn-danger">
+                                        <button className="btn btn-danger" onClick={() => handleDelete(r.reminder_id)}>
                                             Delete
                                         </button>
                                     </td>
