@@ -95,7 +95,7 @@ const Home = () => {
 
   const openModalCategory = () => {
     if (categories.length !== 0) {
-      const modal = document.querySelector('.modal-reminder');
+      const modal = document.querySelector('.modal-category');
       modal.classList.add('open');
     } else {
 

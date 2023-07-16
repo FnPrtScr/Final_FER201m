@@ -1,7 +1,7 @@
 import React from 'react'
 import { MDBBadge, MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
 import moment from 'moment';
-import EditReminder from './EditReminder.component';
+// import EditReminder from './EditReminder.component';
 import {  Button} from 'react-bootstrap'
 
 
@@ -67,13 +67,13 @@ const ResultSearch = (props) => {
                                     <td>{moment(r.due_date).format("DD/MM/YYYY")}</td>
                                     <td>{moment(r.create_date).format("DD/MM/YYYY")}</td>
                                     <td>
-                                        <Button variant="primary" onClick={() => setModalShow(true)}>
+                                        <Button variant="primary" >
                                             Edit
                                         </Button>
-                                        <EditReminder
+                                        {/* <EditReminder
                                             show={modalShow}
                                             onHide={() => setModalShow(false)}
-                                        />
+                                        /> */}
                                         <button className="btn btn-danger" onClick={() => deleteReminder(r.reminder_id)}>
                                             Delete
                                         </button>
