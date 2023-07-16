@@ -43,10 +43,12 @@ const NewReminder = () => {
     }
 
     const createReminder = () => {
+        console.log(time.toString());
         if (!checkValidate()) {
             alert('Hay nhap du thong tin')
         } else {
             if (JSON.parse(localStorage.getItem('USER'))) {
+                console.log(time.toString());
                 const data = {
                     title: title,
                     description: description,

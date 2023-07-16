@@ -12,6 +12,7 @@ import NewCategory from './NewCategory';
 import Navbarr from './Navbar.component';
 import TablesReminderInMyList from './TablesReminderInMyList.component';
 import ResultSearch from './ResultSearch.component';
+import { useNavigate } from 'react-router-dom';
 const Home = () => {
   const [selectedButton, setSelectedButton] = useState(null);
   const arrToday = [];
@@ -26,6 +27,8 @@ const Home = () => {
   const user = JSON.parse(localStorage.getItem('USER'));
   const getuserId = user.data.user_id;
   const [keyword, setKeyword] = useState('');
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch(`http://localhost:5000/api/v1/reminders/u/${getuserId}`, {
@@ -56,6 +59,19 @@ const Home = () => {
     }
     return true;
   })
+
+  const deleteReminder = (id) => {
+    if (window.confirm("Do you want to remove")) {
+      const option = {
+        method: "DELETE"
+      }
+      fetch(`http://localhost:5000/api/v1/reminders/${id}`, option)
+        .then(() => {
+          window.location.reload();
+        }
+        )
+    }
+  }
 
   const deleteCategories = (id) => {
     if (window.confirm("Do you want to remove")) {
@@ -110,8 +126,8 @@ const Home = () => {
   const handleSearch = (e) => {
     e.preventDefault();
     let data = []
-    if(keyword !== '') {
-        data = reminders.filter(r => r.title.includes(keyword));
+    if (keyword !== '') {
+      data = reminders.filter(r => r.title.includes(keyword));
     }
     setSearchReminder(data);
     setIsSearch(true)
@@ -126,19 +142,19 @@ const Home = () => {
 
   const renderContent = () => {
     if (selectedButton === 'total') {
-      return <div><Tables header={"Today"} data={arrToday} /></div>;
+      return <div><Tables header={"Today"} data={arrToday} handleDelete={deleteReminder}/></div>;
     }
     if (selectedButton === 'scheduled') {
       return <div><Tables header={"Schedule"} data={arrSchedule} /></div>;
     }
     if (selectedButton === 'all') {
-      return <div><Tables header={"All Reminder"} data={arrAll} /></div>;
+      return <div><Tables header={"All Reminder"} data={arrAll} handleDelete={deleteReminder}/></div>;
     }
     if (selectedButton === 'flagged') {
       return <div>Flagged Content</div>;
     }
     if (selectedButton === 'completed') {
-      return <div><Tables header={"Complete"} data={arrCompleted} /></div>;
+      return <div><Tables header={"Complete"} data={arrCompleted} handleDelete={deleteReminder} /></div>;
     }
     if (selectedButton === 'assigned') {
       return <div>Assigned Content</div>;
@@ -153,7 +169,7 @@ const Home = () => {
         }
         return data;
       })
-      return <div><TablesReminderInMyList header={categoryName} data={data} /></div>;
+      return <div><TablesReminderInMyList header={categoryName} data={data} handleDelete={deleteReminder} /></div>;
     }
 
     return null;
@@ -214,7 +230,7 @@ const Home = () => {
           <Col xs={7}>
             <Tab.Content>
               {renderContent()}
-              {isSearch && <ResultSearch header={"Result search"} data={searchReminders} /> }
+              {isSearch && <ResultSearch header={"Result search"} data={searchReminders} handleDelete={deleteReminder} checkSearch={isSearch} />}
             </Tab.Content>
           </Col>
         </Row>

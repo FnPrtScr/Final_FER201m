@@ -4,7 +4,7 @@ import '../styles/Table.style.css'
 import moment from 'moment';
 
 const Tables = (props) => {
-    const { header, data } = props;
+    const { header, data, handleDelete } = props;
 
     return (
         <>
@@ -54,7 +54,7 @@ const Tables = (props) => {
                                         <button className="btn btn-primary">
                                             Edit
                                         </button>
-                                        <button className="btn btn-danger">
+                                        <button className="btn btn-danger" onClick={() => handleDelete(r.reminder_id)}>
                                             Delete
                                         </button>
                                     </td>
