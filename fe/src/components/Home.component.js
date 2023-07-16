@@ -12,7 +12,9 @@ import NewCategory from './NewCategory';
 import Navbarr from './Navbar.component';
 import TablesReminderInMyList from './TablesReminderInMyList.component';
 import ResultSearch from './ResultSearch.component';
-import { useNavigate } from 'react-router-dom';
+import { myList } from '../services/home.service'
+import { getAllReminderByUserId } from '../services/reminder.service'
+
 const Home = () => {
   const [selectedButton, setSelectedButton] = useState(null);
   const arrToday = [];
@@ -28,19 +30,19 @@ const Home = () => {
   const getuserId = user.data.user_id;
   const [keyword, setKeyword] = useState('');
 
-  const navigate = useNavigate();
 
   useEffect(() => {
-    fetch(`http://localhost:5000/api/v1/reminders/u/${getuserId}`, {
-      method: 'GET'
-    })
-      .then(resp => resp.json())
-      .then(a => {
-        setReminders(a.data.reminder.rows);
+    myList(getuserId)
+      .then((res) => {
+        setCategories(res.data.data.categories.rows)
       })
-      .catch(err => {
-        console.log(err.message);
-      });
+  }, [getuserId]);
+
+  useEffect(() => {
+    getAllReminderByUserId(getuserId)
+      .then((res) => {
+        setReminders(res.data.data.reminder.rows)
+      })
   }, [getuserId]);
 
   reminders.map((reminder) => {
@@ -50,7 +52,7 @@ const Home = () => {
     if (reminder.status === "Completed") {
       arrCompleted.push(reminder);
     }
-    const getDateCurent= moment(Date.now()).format("DD/MM/YYYY");
+    const getDateCurent = moment(Date.now()).format("DD/MM/YYYY");
     const getDueDate = moment(reminder.due_date).format("DD/MM/YYYY");
     if (getDueDate === getDateCurent) {
       arrToday.push(reminder);
@@ -88,18 +90,6 @@ const Home = () => {
     }
   }
 
-
-  useEffect(() => {
-    fetch(`http://localhost:5000/api/v1/reminders`)
-      .then(res => res.json())
-      .then(data => setReminders(data.data.reminder.rows))
-  }, [])
-
-  useEffect(() => {
-    fetch(`http://localhost:5000/api/v1/categories`)
-      .then(res => res.json())
-      .then(data => setCategories(data.data.categories.rows))
-  }, [])
 
   const openModalReminder = () => {
     if (categories.length !== 0) {

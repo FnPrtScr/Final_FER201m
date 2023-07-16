@@ -94,21 +94,21 @@ const NewReminder = () => {
                     </div>
                     <div>
                         <div className="input">
-                            <label htmlFor="contact">Title</label>
+                            <label htmlFor="contact">Title: </label>
                             <input id="contact" type="text" className="form-control" value={title} onChange={(e) => setTitle(e.target.value)} />
                             <span style={{ color: 'red', display: 'none', fontSize: '12px' }} className='error'>Please enter title</span>
                         </div>
                         <div className="input">
-                            <label htmlFor="price">Description</label>
+                            <label htmlFor="price">Description: </label>
                             <textarea id="price" type="text" className="form-control" value={description} onChange={(e) => setDescription(e.target.value)} />
                             <span style={{ color: 'red', display: 'none', fontSize: '12px' }} className='error'>Please enter description</span>
                         </div>
                         <div style={{ margin: '20px 0' }}>
-                            <span style={{ marginRight: '12px' }}>Dealine</span>
+                            <span style={{ marginRight: '12px' }}>Deadline: </span>
                             <DateTimePicker value={time} onChange={setTime} />
                         </div>
                         <div style={{ marginBottom: '20px' }}>
-                            <span>Priority</span>
+                            <span>Priority: </span>
                             <select onChange={(e) => setPriority(e.target.value)}>
                                 <option value={0}>None</option>
                                 <option value={1}>Short</option>
@@ -117,7 +117,7 @@ const NewReminder = () => {
                             </select>
                         </div>
                         <div style={{ marginBottom: '20px' }}>
-                            <span style={{ marginRight: '12px' }}>Categories</span>
+                            <span style={{ marginRight: '12px' }}>Categories: </span>
                             <select onChange={(e) => setCate(e.target.value)}>
                                 {
                                     categories.map(cate =>
