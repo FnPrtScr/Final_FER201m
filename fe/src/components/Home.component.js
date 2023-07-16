@@ -5,13 +5,13 @@ import { Col, Navbar, Row, Button, Form, FormLabel, Tab, NavItem, ListGroup, Tab
 import { MdFlagCircle, MdAddCircle } from "react-icons/md";
 import { FcPlanner, FcTodoList, FcOk, FcBusinessman, FcDatabase } from "react-icons/fc";
 import '../styles/Home.style.css'
-// import {  useNavigate } from 'react-router-dom';
 import Tables from './Tables.component';
 import moment from 'moment';
 import NewReminder from './NewReminder';
 import NewCategory from './NewCategory';
 import Navbarr from './Navbar.component';
 import TablesReminderInMyList from './TablesReminderInMyList.component';
+import ResultSearch from './ResultSearch.component';
 const Home = () => {
   const [selectedButton, setSelectedButton] = useState(null);
   const arrToday = [];
@@ -20,11 +20,12 @@ const Home = () => {
   const arrAll = [];
   const [categories, setCategories] = useState([]);
 
-  // const navigate = useNavigate();
-
   const [reminders, setReminders] = useState([]);
+  const [searchReminders, setSearchReminder] = useState([]);
+  const [isSearch, setIsSearch] = useState(false);
   const user = JSON.parse(localStorage.getItem('USER'));
   const getuserId = user.data.user_id;
+  const [keyword, setKeyword] = useState('');
 
   useEffect(() => {
     fetch(`http://localhost:5000/api/v1/reminders/u/${getuserId}`, {
@@ -56,6 +57,19 @@ const Home = () => {
     return true;
   })
 
+  const deleteCategories = (id) => {
+    if (window.confirm("Do you want to remove")) {
+      const option = {
+        method: "DELETE",
+      }
+      fetch(`http://localhost:5000/api/v1/categories/${id}`, option)
+        .then(() => {
+          alert("Delete success.");
+          window.location.reload()
+        }
+        )
+    }
+  }
 
 
   useEffect(() => {
@@ -80,28 +94,34 @@ const Home = () => {
   }
 
   const openModalCategory = () => {
-    const modal = document.querySelector('.modal-category');
-    modal.classList.add('open');
+    if (categories.length !== 0) {
+      const modal = document.querySelector('.modal-category');
+      modal.classList.add('open');
+    } else {
+
+    }
   }
 
   const handleButtonClick = (button) => {
     setSelectedButton(button);
+    setIsSearch(false);
   };
 
-  // const deleteReminder = (id) => {
-  //   if (JSON.parse(localStorage.getItem('USER'))) {
-  //     const option = {
-  //       method: "DELETE"
-  //     }
-  //     fetch(`http://localhost:5000/api/v1/reminders/${id}`, option)
-  //       .then(() => {
-  //         window.location.reload();
-  //       }
-  //       )
-  //   } else {
-  //     navigate('/api/v1/auth');
-  //   }
-  // }
+  const handleSearch = (e) => {
+    e.preventDefault();
+    let data = []
+    if(keyword !== '') {
+        data = reminders.filter(r => r.title.includes(keyword));
+    }
+    setSearchReminder(data);
+    setIsSearch(true)
+    setSelectedButton(null)
+  }
+
+  const handleKeyword = (e) => {
+    setKeyword(e.target.value);
+    setIsSearch(false);
+  }
 
 
   const renderContent = () => {
@@ -124,10 +144,16 @@ const Home = () => {
       return <div>Assigned Content</div>;
     }
     if (selectedButton?.includes("myList-")) {
-      const categoryId = selectedButton.split('-')[1];
-      const reminderr=[]
-      reminderr.filter(r=>r.category_id === +categoryId)
-      return <div><TablesReminderInMyList data={reminderr}/></div>;
+      const categoryId = selectedButton.split('-')[2];
+      const categoryName = selectedButton.split('-')[1];
+      let data = [];
+      reminders.filter((r) => {
+        if (r.category_id === +categoryId) {
+          data.push(r)
+        }
+        return data;
+      })
+      return <div><TablesReminderInMyList header={categoryName} data={data} /></div>;
     }
 
     return null;
@@ -140,14 +166,16 @@ const Home = () => {
         <Row className='mb-0'>
           <Col className='navLeft' xs={4}>
             <Row className="mb-3" style={{ marginTop: '10px' }}>
-              <Form className="d-flex">
+              <Form className="d-flex" onSubmit={e => handleSearch(e)} >
                 <Form.Control
                   type="search"
                   placeholder="Search"
                   className="me-2"
                   aria-label="Search"
+                  value={keyword}
+                  onChange={e => handleKeyword(e)}
                 />
-                <Button variant="outline-success">Search</Button>
+                <Button type='submit' variant="outline-success">Search</Button>
               </Form>
             </Row>
             <Row className='mb-3'>
@@ -171,7 +199,7 @@ const Home = () => {
                 {
                   categories.map((cate) => {
                     return (
-                      <ListGroup.Item action onClick={() => handleButtonClick(`myList-${cate.category_id}`)}>
+                      <ListGroup.Item action onClick={() => handleButtonClick(`myList-${cate.name}-${cate.category_id}`)}>
                         <div className='icon-link' style={{ backgroundColor: `${cate.color}` }}>
                           <i className={cate.icon}></i>
                         </div>
@@ -186,6 +214,7 @@ const Home = () => {
           <Col xs={7}>
             <Tab.Content>
               {renderContent()}
+              {isSearch && <ResultSearch header={"Result search"} data={searchReminders} /> }
             </Tab.Content>
           </Col>
         </Row>

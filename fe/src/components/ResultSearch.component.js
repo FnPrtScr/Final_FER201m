@@ -1,27 +1,27 @@
 import React from 'react'
 import { MDBBadge, MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
 import moment from 'moment';
-import EditReminder from './EditReminder.component';
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+// import EditReminder from './EditReminder.component';
+import {  Button} from 'react-bootstrap'
 
-const TablesReminderInMyList = (props) => {
+
+const ResultSearch = (props) => {
     const { header, data } = props;
     const [modalShow, setModalShow] = React.useState(false);
-    const [categories, setCategories] = useState([]);
-    useEffect(() => {
-        fetch(`http://localhost:5000/api/v1/categories`)
-            .then(res => res.json())
-            .then(data => setCategories(data.data.categories.rows))
-    }, [])
-    const openModalReminder = () => {
-        if (categories.length !== 0) {
-            const modal = document.querySelector('.modal-reminder');
-            modal.classList.add('open');
-        } else {
 
+    const deleteReminder = (id) => {
+        if (JSON.parse(localStorage.getItem('USER'))) {
+            const option = {
+                method: "DELETE"
+            }
+            fetch(`http://localhost:5000/api/v1/reminders/${id}`, option)
+                .then(() => {
+                    window.location.reload();
+                }
+                )
         }
     }
+
     return (
         <>
             <h1>
@@ -67,8 +67,14 @@ const TablesReminderInMyList = (props) => {
                                     <td>{moment(r.due_date).format("DD/MM/YYYY")}</td>
                                     <td>{moment(r.create_date).format("DD/MM/YYYY")}</td>
                                     <td>
-                                        <Link className='btn btn-primary m-3' to={`/api/v1/reminders/${r.reminder_id}`}>Edit</Link>
-                                        <button className="btn btn-danger">
+                                        <Button variant="primary" >
+                                            Edit
+                                        </Button>
+                                        {/* <EditReminder
+                                            show={modalShow}
+                                            onHide={() => setModalShow(false)}
+                                        /> */}
+                                        <button className="btn btn-danger" onClick={() => deleteReminder(r.reminder_id)}>
                                             Delete
                                         </button>
                                     </td>
@@ -84,4 +90,4 @@ const TablesReminderInMyList = (props) => {
     );
 }
 
-export default TablesReminderInMyList
+export default ResultSearch;
