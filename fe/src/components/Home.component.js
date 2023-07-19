@@ -1,6 +1,5 @@
 import React from 'react'
 import { useState, useEffect } from 'react';
-
 import { Col, Navbar, Row, Button, Form, FormLabel, Tab, NavItem, ListGroup, TabContainer } from 'react-bootstrap'
 import { MdFlagCircle, MdAddCircle } from "react-icons/md";
 import { FcPlanner, FcTodoList, FcOk, FcBusinessman, FcDatabase } from "react-icons/fc";
@@ -22,14 +21,12 @@ const Home = () => {
   const arrSchedule = [];
   const arrAll = [];
   const [categories, setCategories] = useState([]);
-
   const [reminders, setReminders] = useState([]);
   const [searchReminders, setSearchReminder] = useState([]);
   const [isSearch, setIsSearch] = useState(false);
   const user = JSON.parse(localStorage.getItem('USER'));
   const getuserId = user.data.user_id;
   const [keyword, setKeyword] = useState('');
-
 
   useEffect(() => {
     myList(getuserId)
@@ -138,13 +135,13 @@ const Home = () => {
       return <div><Tables header={"All Reminder"} data={arrAll} handleDelete={deleteReminder} /></div>;
     }
     if (selectedButton === 'flagged') {
-      return <div>Flagged Content</div>;
+      return <div>Comming soon!</div>;
     }
     if (selectedButton === 'completed') {
       return <div><Tables header={"Complete"} data={arrCompleted} handleDelete={deleteReminder} /></div>;
     }
     if (selectedButton === 'assigned') {
-      return <div>Assigned Content</div>;
+      return <div>Comming soon!</div>;
     }
     if (selectedButton?.includes("myList-")) {
       const categoryId = selectedButton.split('-')[2];
@@ -167,6 +164,7 @@ const Home = () => {
       <Navbarr />
       <TabContainer>
         <Row className='mb-0'>
+
           <Col className='navLeft' xs={4}>
             <Row className="mb-3" style={{ marginTop: '10px' }}>
               <Form className="d-flex" onSubmit={e => handleSearch(e)} >
@@ -202,11 +200,16 @@ const Home = () => {
                 {
                   categories.map((cate) => {
                     return (
-                      <ListGroup.Item action onClick={() => handleButtonClick(`myList-${cate.name}-${cate.category_id}`)}>
-                        <div className='icon-link' style={{ backgroundColor: `${cate.color}` }}>
-                          <i className={cate.icon}></i>
+                      <ListGroup.Item action onClick={() => handleButtonClick(`myList-${cate.name}-${cate.category_id}`)} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <div>
+                          <div className='icon-link' style={{ backgroundColor: `${cate.color}` }}>
+                            <i className={cate.icon}></i>
+                          </div>
+                          <FormLabel>{cate.name}</FormLabel>
                         </div>
-                        {cate.name}
+                        <div>
+                          <Button className='btn btn-danger' onClick={(e) => { e.stopPropagation(); deleteCategories(cate.category_id); }}>Delete</Button>
+                        </div>
                       </ListGroup.Item>
                     )
                   })
@@ -227,7 +230,6 @@ const Home = () => {
           </Navbar.Collapse>
           <Navbar.Collapse className="justify-content-end">
             <NavItem style={{ cursor: 'pointer' }} onClick={openModalCategory}><MdAddCircle color='rgb(0,122,255)' size='1.5em' />&emsp;Add Categories</NavItem>
-
           </Navbar.Collapse>
         </Navbar>
 

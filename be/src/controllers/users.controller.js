@@ -10,6 +10,18 @@ module.exports = {
         if (user) return res.json(successResponse(200, user));
         return res.status(404).json(errorResponse(404));
     }),
+    findAllUser: asyncHandler(async (req,res,next)=>{
+        const user=await UserService.fncGetAllUser();
+        
+        if (user) return res.json(successResponse(200, user));
+        return res.status(404).json(errorResponse(404));
+    }),
+    
+    updateStatusUser: asyncHandler(async (req,res,next)=>{
+        const user =await UserService.fncUpdateStatusUser(req,res);
+        if (user) return res.status(204).json(successResponse(204));
+        return res.status(500).json(errorResponse());
+    }),
     
     registerUser:asyncHandler(async (req,res,next) =>{
         console.log(req.body)

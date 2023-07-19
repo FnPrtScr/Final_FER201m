@@ -1,14 +1,13 @@
 import React from 'react'
 import { MDBBadge, MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
 import moment from 'moment';
-import EditReminder from './EditReminder.component';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import TablePagination from './Pagination.component';
 
 const TablesReminderInMyList = (props) => {
     const { header, data, handleDelete } = props;
-    const [modalShow, setModalShow] = React.useState(false);
+    // eslint-disable-next-line
     const [categories, setCategories] = useState([]);
     useEffect(() => {
         fetch(`http://localhost:5000/api/v1/categories`)
@@ -51,7 +50,7 @@ const TablesReminderInMyList = (props) => {
                 </MDBTableHead>
                 <MDBTableBody>
                     {
-                        data.map(r => {
+                        currentData.map(r => {
                             return (
                                 <tr key={r.reminder_id}>
                                     <td>

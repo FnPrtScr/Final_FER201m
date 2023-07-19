@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Table, Dropdown, Nav } from 'react-bootstrap';
+import { Dropdown, Nav } from 'react-bootstrap';
 import { FcAdvertising } from 'react-icons/fc'
 import { Link } from 'react-router-dom';
 

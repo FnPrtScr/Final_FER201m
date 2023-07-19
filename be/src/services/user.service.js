@@ -31,6 +31,25 @@ class UserService {
         const result =await Users.findOne({where:{email:email}});
         return result;
     }
+    async fncGetAllUser(){
+        return await Users.findAndCountAll();
+    }
+    async fncUpdateStatusUser(req,res){
+        const {uid}=req.body;
+        const getUser= await Users.findOne({
+            where:{user_id:uid}
+        })
+        if(getUser){
+            if(getUser.status===1){
+                return await Users.update({status:2},{where:{user_id:uid}})
+            }
+            if(getUser.status===2){
+                return await Users.update({status:1},{where:{user_id:uid}})
+            }
+        }else{
+            return null;
+        }
+    }
     async fncVerification(req,res){
         const {email,code}=req.body;
         const getCodeByUser = await this.fncGetUser(req,res);

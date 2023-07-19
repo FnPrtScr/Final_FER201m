@@ -1,15 +1,11 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { MDBBadge, MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
 import moment from 'moment';
-// import EditReminder from './EditReminder.component';
 import { Button } from 'react-bootstrap'
 
 
 const ResultSearch = (props) => {
     const { header, data, handleDelete } = props;
-    const [modalShow, setModalShow] = React.useState(false);
-
-
     return (
         <>
             <h1>

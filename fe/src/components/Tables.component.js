@@ -1,4 +1,4 @@
-import { React, useState, useEffect } from "react";
+import { React, useState } from "react";
 import { MDBBadge, MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
 import { Link } from 'react-router-dom';
 import '../styles/Table.style.css'
@@ -7,7 +7,6 @@ import TablePagination from './Pagination.component';
 
 const Tables = (props) => {
     const { header, data, handleDelete } = props;
-    const [categories, setCategories] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10; // số lượng hàng trong mỗi trang
 

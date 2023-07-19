@@ -18,7 +18,7 @@ const TablePagination = ({ currentPage, totalPages, onPageChange }) => {
   }
 
   return (
-    <Pagination>
+    <Pagination style={{marginTop:20,marginLeft:20,justifyContent:'center'}}>
       <Pagination.Prev
         disabled={currentPage === 1}
         onClick={() => onPageChange(currentPage - 1)}

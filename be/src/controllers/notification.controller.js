@@ -20,5 +20,10 @@ module.exports = {
         return res.status(500).json(errorResponse());
     }),
 
+    createBulkNoti: asyncHandler(async (req,res,next)=>{
+        const notification =await NotificationService.fncCreateNotification(req,res);
+        if (notification) return res.status(201).json(successResponse(200, notification));
+        return res.status(500).json(errorResponse());
+    })
     
 };
