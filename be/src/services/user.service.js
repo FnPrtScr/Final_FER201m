@@ -32,7 +32,7 @@ class UserService {
         return result;
     }
     async fncGetAllUser(){
-        return await Users.findAndCountAll();
+        return await Users.findAndCountAll({where:{role_id:2}});
     }
     async fncUpdateStatusUser(req,res){
         const {uid}=req.body;
